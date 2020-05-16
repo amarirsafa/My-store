@@ -10,9 +10,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,6 +44,7 @@ public class ItemsActivity extends AppCompatActivity {
     private CollectionReference itemsRef ;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
+    private List<Item> itemsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +59,33 @@ public class ItemsActivity extends AppCompatActivity {
         GridLayoutManager gridVM = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridVM);
 
+        itemsList = new ArrayList<>();
+
+        fillInListOfItems();
         setUpRecyclerView();
 
     }
+
+    private void fillInListOfItems() {
+        itemsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if(e != null){
+                    Toast.makeText(ItemsActivity.this, "Error Loading", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                    if(documentSnapshot == null){
+                        Toast.makeText(ItemsActivity.this, "No items to load", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Item item_1 = documentSnapshot.toObject(Item.class);
+                        itemsList.add(new Item(item_1));
+                    }
+                }
+            }
+        });
+    }
+
 
     private void setUpRecyclerView() {
         Query query = itemsRef.orderBy("id",Query.Direction.DESCENDING);
@@ -67,6 +94,15 @@ public class ItemsActivity extends AppCompatActivity {
                 .build();
         adapter = new RecyclerViewAdapter(options);
         recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                Intent intent = new Intent(ItemsActivity.this,ItemDetailsActivity.class);
+                intent.putExtra("Item",itemsList.get(position));
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

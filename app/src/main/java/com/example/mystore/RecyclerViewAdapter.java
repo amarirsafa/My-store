@@ -21,6 +21,8 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends FirestoreRecyclerAdapter<Item,RecyclerViewAdapter.myViewHolder> {
 
+    public OnItemClickListener listener;
+
     public RecyclerViewAdapter(@NonNull FirestoreRecyclerOptions<Item> options) {
         super(options);
     }
@@ -47,7 +49,7 @@ public class RecyclerViewAdapter extends FirestoreRecyclerAdapter<Item,RecyclerV
 
     }
 
-    public static class myViewHolder extends RecyclerView.ViewHolder{
+    class myViewHolder extends RecyclerView.ViewHolder{
         TextView item_name,item_price;
         ImageView item_image;
         public myViewHolder(@NonNull View itemView) {
@@ -55,15 +57,21 @@ public class RecyclerViewAdapter extends FirestoreRecyclerAdapter<Item,RecyclerV
             item_name = itemView.findViewById(R.id.Item_Name);
             item_price = itemView.findViewById(R.id.Item_Price);
             item_image = itemView.findViewById(R.id.Item_image);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    int position = getAdapterPosition();
-//                    if(position!= RecyclerView.NO_POSITION && listener != null){
-//                        listener.onItemClick(get);
-//                    }
-//                }
-//            });
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if(position!= RecyclerView.NO_POSITION && listener != null){
+                        listener.onItemClick(getSnapshots().getSnapshot(position),position);
+                    }
+                }
+            });
         }
+    }
+    public interface OnItemClickListener{
+        void onItemClick(DocumentSnapshot documentSnapshot,int position);
+    }
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.listener=listener;
     }
 }
