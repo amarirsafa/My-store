@@ -1,0 +1,2 @@
+rootProject.name='My Store'
+include ':app'

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="who_made_it">
+        <item>who made it?</item>
+        <item>I made it</item>
+        <item>Members of my shop</item>
+        <item>An other company</item>
+        <item>My cooperative</item>
+    </string-array>
+
+    <string-array name="what_is_it">
+        <item>what is it?</item>
+        <item>Finished product</item>
+        <item>supplies</item>
+    </string-array>
+</resources>
