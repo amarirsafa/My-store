@@ -41,49 +41,43 @@ public class ItemsActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private CollectionReference itemsRef ;
     private RecyclerView recyclerView;
-    private List<Item> itemsReady;
     private RecyclerViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items);
+
         mDataBaseStore = FirebaseFirestore.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference("Items");
         itemsRef = mDataBaseStore.collection("Products");
+
         recyclerView = findViewById(R.id.recycler_view);
         GridLayoutManager gridVM = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(gridVM);
-        itemsReady = new ArrayList<>();
-        ImageView imgtest = findViewById(R.id.image_holder);
 
-
-
-
-
-        itemsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if(e != null){
-                    Toast.makeText(ItemsActivity.this, "Error Loading", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                    if(documentSnapshot == null){
-                        Toast.makeText(ItemsActivity.this, "No items to load", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Item item_1 = documentSnapshot.toObject(Item.class);
-                        itemsReady.add(new Item(item_1));
-                    }
-                }
-                RecyclerViewAdapter adapter = new RecyclerViewAdapter(ItemsActivity.this,itemsReady);
-                recyclerView.setAdapter(adapter);
-            }
-        });
-
+        setUpRecyclerView();
 
     }
 
+    private void setUpRecyclerView() {
+        Query query = itemsRef.orderBy("id",Query.Direction.DESCENDING);
+        FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
+                .setQuery(query,Item.class)
+                .build();
+        adapter = new RecyclerViewAdapter(options);
+        recyclerView.setAdapter(adapter);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        adapter.stopListening();
+    }
 }

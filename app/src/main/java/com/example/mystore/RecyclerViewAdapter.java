@@ -13,45 +13,38 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.myViewHolder> {
-    private Context mContext;
-    private List<Item> itemsList;
-    public onItemClickListener listener;
+public class RecyclerViewAdapter extends FirestoreRecyclerAdapter<Item,RecyclerViewAdapter.myViewHolder> {
 
-    public RecyclerViewAdapter(Context mContext, List<Item> itemsList){
-        this.mContext=mContext;
-        this.itemsList=itemsList;
+    public RecyclerViewAdapter(@NonNull FirestoreRecyclerOptions<Item> options) {
+        super(options);
     }
 
     @NonNull
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.card_item,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item,parent,false);
         return new myViewHolder(view);
     }
 
+
+
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull myViewHolder holder, int position) {
-        Item currentItem = itemsList.get(position);
-        holder.item_name.setText(currentItem.getTitle());
-        holder.item_price.setText(currentItem.getPrice().toString());
+    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull Item model) {
+        holder.item_name.setText(model.getTitle());
+        holder.item_price.setText(model.getPrice().toString());
         Picasso.get().
-                load(Uri.parse(currentItem.getPictures().get(0))).
+                load(Uri.parse(model.getPictures().get(0))).
                 fit().
                 centerCrop().
                 into(holder.item_image);
 
-    }
-
-    @Override
-    public int getItemCount() {
-        return itemsList.size();
     }
 
     public static class myViewHolder extends RecyclerView.ViewHolder{
@@ -72,11 +65,5 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 //                }
 //            });
         }
-    }
-    public interface onItemClickListener{
-        void onItemClick(DocumentSnapshot documentSnapshot,int position);
-    }
-    public void setOnItemClickListener(onItemClickListener listener){
-        this.listener=listener;
     }
 }
