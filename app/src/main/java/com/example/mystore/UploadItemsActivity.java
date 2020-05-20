@@ -42,11 +42,13 @@ public class UploadItemsActivity extends AppCompatActivity {
     private FirebaseFirestore mDataBaseStore;
     private StorageReference mStorageRef;
     private EditText title;
+    private LoadingDialog loadingAnimation;
     private String test;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_items);
+        loadingAnimation  = new LoadingDialog(UploadItemsActivity.this);
 
         mDataBaseStore = FirebaseFirestore.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference("Items");
@@ -143,6 +145,7 @@ public class UploadItemsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                loadingAnimation.startLoadingDialog();
                 fillTheItemForm();
                 uploadImages();
 
@@ -166,7 +169,7 @@ public class UploadItemsActivity extends AppCompatActivity {
                     //Toast.makeText(UploadItemsActivity.this, downloadUrl.toString(), Toast.LENGTH_SHORT).show();
                     productImagesString.add(downloadUrl+"");
                         if(finalI == finalI1){
-                            Toast.makeText(UploadItemsActivity.this, "Images uploaded", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(UploadItemsActivity.this, "Images uploaded", Toast.LENGTH_SHORT).show();
                             uploadItem();
                         }
                     }
@@ -244,6 +247,7 @@ public class UploadItemsActivity extends AppCompatActivity {
         dRef.set(item).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                loadingAnimation.dismissDialog();
                 Toast.makeText(UploadItemsActivity.this, "The item has been successfully saved", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {

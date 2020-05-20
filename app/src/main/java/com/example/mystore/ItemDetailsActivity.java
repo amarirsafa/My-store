@@ -72,7 +72,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 if(count > 0){
                     assert item != null;
                     item.setAmount(--count);
-                    amount_display.setText(""+count);
+                    amount_display.setText(count+"");
                 }
             }
         });
@@ -85,6 +85,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
         String item_description2 = item.getDescription() + "\n Item category: " + item.getCategory() +
                 "\n this item was made by: " + item.getWho_ma_it() + "\n and it's :" + item.getWhat_is_it();
         item_description.setText(item_description2);
+
 
         Add_to_cart.setOnClickListener(new View.OnClickListener() {
             @Override

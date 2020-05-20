@@ -11,8 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ItemDetailsActivity"></activity>
-        <activity android:name=".UploadItemsActivity" />
+        <activity android:name=".ItemDetailsActivity"/>
         <activity android:name=".LandingActivity" />
         <activity android:name=".ItemsActivity" />
         <activity android:name=".RegisterActivity" />
@@ -22,6 +21,13 @@
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".UploadItemsActivity" android:label="Admin">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

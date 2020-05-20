@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 
 public class Item implements Parcelable {
-    private static int count =87664;
+    private static int count =87665;
     private int id;
     private String title,category,who_ma_it,what_is_it,description;
     private Double price,quantity;
