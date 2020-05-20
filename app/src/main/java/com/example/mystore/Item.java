@@ -14,6 +14,7 @@ public class Item implements Parcelable {
     private int id;
     private String title,category,who_ma_it,what_is_it,description;
     private Double price,quantity;
+    private int amount=0;
     private ArrayList<String> pictures = new ArrayList<>();
 
     public Item(){
@@ -89,6 +90,9 @@ public class Item implements Parcelable {
 
     public String getWho_ma_it() { return who_ma_it;}
     public void setWho_ma_it(String who_ma_it) { this.who_ma_it = who_ma_it; }
+
+    public int getAmount() {return amount;}
+    public void setAmount(int amount) { this.amount = amount; }
 
     @Override
     public int describeContents() {

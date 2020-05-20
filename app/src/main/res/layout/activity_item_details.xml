@@ -59,14 +59,51 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/minus_button"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="10dp"
+                        android:textSize="20sp"
+                        android:text="@string/MINUS"
+                        android:background="@drawable/shape_black_border_full_border"/>
+
+                    <TextView
+                        android:id="@+id/amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:text="@string/_0"
+                        android:textColor="@android:color/black" />
+
+                    <Button
+                        android:id="@+id/plus_button"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:textSize="20sp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/PLUS"
+                        android:background="@drawable/shape_black_border_full_border"/>
+
+                </LinearLayout>
+
                 <Button
-                    android:id="@+id/buy_now_button"
+                    android:id="@+id/add_to_wishlist_buttton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/shape_black_border_full_border"
-                    android:text="@string/buy_now" />
+                    android:text="@string/add_to_wishlist" />
 
                 <Button
                     android:id="@+id/add_to_cart_button"
@@ -84,15 +121,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="4dp"
+                android:layout_marginBottom="10dp"
                 android:background="@drawable/shape_white_grey_full_border"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="17sp"
                     android:layout_marginHorizontal="10dp"
                     android:layout_marginVertical="10dp"
-                    android:paddingHorizontal="10dp"
                     android:text="@string/description"
                     android:textColor="#000" />
 
