@@ -43,7 +43,6 @@ public class UploadItemsActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private EditText title;
     private LoadingDialog loadingAnimation;
-    private String test;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,8 +124,6 @@ public class UploadItemsActivity extends AppCompatActivity {
         });
 
 
-        //mStorageRef = FirebaseStorage.getInstance().getReference("items");
-        //mFirestoreRef = FirebaseFirestore.getInstance();
 
 
         findViewById(R.id.add_pic).setOnClickListener(new View.OnClickListener() {
@@ -166,10 +163,8 @@ public class UploadItemsActivity extends AppCompatActivity {
                     Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
                     while (!urlTask.isSuccessful());
                     Uri downloadUrl = urlTask.getResult();
-                    //Toast.makeText(UploadItemsActivity.this, downloadUrl.toString(), Toast.LENGTH_SHORT).show();
                     productImagesString.add(downloadUrl+"");
                         if(finalI == finalI1){
-                            //Toast.makeText(UploadItemsActivity.this, "Images uploaded", Toast.LENGTH_SHORT).show();
                             uploadItem();
                         }
                     }
@@ -269,10 +264,9 @@ public class UploadItemsActivity extends AppCompatActivity {
                 ClipData clipData = data.getClipData();
                 if (clipData != null) {
                     for (int i = 0; i < clipData.getItemCount(); i++) {
-                        ClipData.Item item = clipData.getItemAt(i);
-                        imgs.get(i).setImageURI(item.getUri());
-                        productImages.add(item.getUri());
-                        //productImagesString.add(item.getUri()+"");
+                        ClipData.Item item_11 = clipData.getItemAt(i);
+                        imgs.get(i).setImageURI(item_11.getUri());
+                        productImages.add(item_11.getUri());
                     }
                 }
             }else{
