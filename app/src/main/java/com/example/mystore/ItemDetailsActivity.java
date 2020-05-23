@@ -86,28 +86,28 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 "\n this item was made by: " + item.getWho_ma_it() + "\n and it's :" + item.getWhat_is_it();
         item_description.setText(item_description2);
 
-
         Add_to_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userRef.document(Objects.requireNonNull(userAuth.getUid())).collection("Cart")
-                        .document(item.getId() + "")
-                        .set(item).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(ItemDetailsActivity.this, "The item added to cart", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(ItemDetailsActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                ;
-
+                if(item.getAmount() != 0){
+                    userRef.document(Objects.requireNonNull(userAuth.getUid())).collection("Cart")
+                            .document(item.getId() + "")
+                            .set(item).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(ItemDetailsActivity.this, "The item added to cart", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ItemDetailsActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else{
+                    Toast.makeText(ItemDetailsActivity.this, "Select a quantity", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
         Add_to_wishlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
