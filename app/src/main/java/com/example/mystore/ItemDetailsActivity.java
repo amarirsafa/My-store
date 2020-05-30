@@ -25,14 +25,12 @@ import com.squareup.picasso.Picasso;
 import java.util.Objects;
 
 public class ItemDetailsActivity extends AppCompatActivity {
-    private Item item;
-    private ImageView imageView;
-    private TextView item_title, item_price, item_description;
-    private TextView amount_display;
-    private FirebaseAuth userAuth;
-    private Button Add_to_cart,Add_to_wishlist;
     private int count =0;
+    private ImageView imageView;
+    private TextView item_title, item_price, item_description,amount_display;
+    private Button Add_to_cart,Add_to_wishlist;
     private CollectionReference userRef;
+    private FirebaseAuth userAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
