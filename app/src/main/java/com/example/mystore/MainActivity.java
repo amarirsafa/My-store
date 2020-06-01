@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(fAuth.getCurrentUser() != null){
-                    Intent i = new Intent(MainActivity.this, CartActivity.class);
+                    Intent i = new Intent(MainActivity.this, WishListActivity.class);
                     startActivity(i);
                     finish();
                 }else{
