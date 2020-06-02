@@ -37,8 +37,10 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText emailEditText;
     private String userUID;
     private FirebaseAuth userAuth;
-    private ProgressBar progressBar;
     private FirebaseFirestore DBstore;
+    private ProgressBar progressBar;
+    private User user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         userAuth = FirebaseAuth.getInstance();
         DBstore = FirebaseFirestore.getInstance();
+        user = new User();
 
         findViewById(R.id.register_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void validateInPut() {
+
         final String userEmail = emailEditText.getText().toString().trim();
         final String userName = firstNameEditText.getText().toString().trim();
         final String userPassword = passwordEditText.getText().toString().trim();
@@ -81,19 +85,14 @@ public class RegisterActivity extends AppCompatActivity {
         }else if(userPassword.isEmpty()){
             passwordEditText.setError("Please enter a password");
         }else {
-            //Toast.makeText(this, "hey", Toast.LENGTH_SHORT).show();
-            //validateEmail(userName,userEmail,userPassword);
             progressBar = new ProgressBar(RegisterActivity.this);
             progressBar.setVisibility(View.VISIBLE);
             userAuth.createUserWithEmailAndPassword(userEmail,userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-
-                        //User user = new User(userEmail,userName);
-                        HashMap<String, Object> user  = new HashMap<>();
-                        user.put("First Name",userName);
-                        user.put("Email",userEmail);
+                        user.setEmail(userEmail);
+                        user.setName(userEmail);
                         userUID = Objects.requireNonNull(userAuth.getCurrentUser()).getUid();
                         DocumentReference dRef = DBstore.collection("users").document(userUID);
                         dRef.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -123,45 +122,4 @@ public class RegisterActivity extends AppCompatActivity {
 
         }
     }
-
-    /*private void validateEmail(final String userName, final String userEmail, final String userPassword) {
-        final DatabaseReference DbRef;
-        DbRef = FirebaseDatabase.getInstance().getReference();
-
-        DbRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(!(dataSnapshot.child("User").child(userName).exists())){
-                    Toast.makeText(RegisterActivity.this, "hey", Toast.LENGTH_SHORT).show();
-                    HashMap<String, Object> userDataMap  = new HashMap<>();
-                    userDataMap.put("First Name",userName);
-                    userDataMap.put("Email",userEmail);
-                    userDataMap.put("password",userPassword);
-
-                    DbRef.child("User").child(userName).updateChildren(userDataMap)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful()){
-                                        Toast.makeText(RegisterActivity.this, "Your account has been created!", Toast.LENGTH_SHORT).show();
-                                    }else{
-                                        Toast.makeText(RegisterActivity.this, "Sorry something went wrong try again later!", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-
-
-                }else{
-                    emailEditText.setError("This email already exists");
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(RegisterActivity.this, "something went wrong!!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }*/
-
-
 }
