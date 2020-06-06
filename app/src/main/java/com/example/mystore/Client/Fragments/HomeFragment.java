@@ -56,32 +56,12 @@ public class HomeFragment extends Fragment {
         return V;
     }
 
-    //    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_items);
-//
-//        mDataBaseStore = FirebaseFirestore.getInstance();
-//        itemsRef = mDataBaseStore.collection("Products");
-//
-//        recyclerView = findViewById(R.id.recycler_view);
-//        GridLayoutManager gridVM = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
-//        recyclerView.setLayoutManager(gridVM);
-//
-//        itemsList = new ArrayList<>();
-//
-//        fillInListOfItems();
-//        setUpRecyclerView();
-//
-//    }
-
     private void fillInListOfItems() {
         itemsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if(e != null){
                     Toast.makeText(getActivity(), "Error Loading", Toast.LENGTH_SHORT).show();
-                    //Toast.makeText(ItemsActivity.this, "Error Loading", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
@@ -108,9 +88,14 @@ public class HomeFragment extends Fragment {
         adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                Intent intent = new Intent(getActivity(), ItemDetailsActivity.class);
-                intent.putExtra("Item",itemsList.get(position));
-                startActivity(intent);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("item",itemsList.get(position));
+                ItemFragment itemFragment = new ItemFragment();
+                itemFragment.setArguments(bundle);
+                getFragmentManager().beginTransaction().replace(R.id.frame_layout,itemFragment).
+                        commit();
+                //bundle.putExtra("Item",itemsList.get(position));
+                //startActivity(bundle);
             }
         });
     }

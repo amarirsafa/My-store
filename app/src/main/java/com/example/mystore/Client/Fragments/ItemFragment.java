@@ -52,8 +52,8 @@ public class ItemFragment extends Fragment {
         amount_display = V.findViewById(R.id.amount);
 
 
-        Intent intent = getIntent();
-        final Item item = intent.getParcelableExtra("Item");
+        Bundle bundle = this.getArguments();
+        final Item item = bundle.getParcelable("item");
 
         V.findViewById(R.id.plus_button).setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
