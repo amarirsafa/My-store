@@ -1,4 +1,4 @@
-package com.example.mystore;
+package com.example.mystore.UnfinishedWork;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.example.mystore.Client.Adapters.RacyclerViewAdapter_Cart;
+import com.example.mystore.Client.Classes.Item;
+import com.example.mystore.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -35,7 +38,7 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cart);
+        setContentView(R.layout.fragment_cart);
 
 
         userAuth = FirebaseAuth.getInstance();

@@ -1,14 +1,22 @@
-package com.example.mystore;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package com.example.mystore.Client.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.mystore.Client.Adapters.RacyclerViewAdapter_Cart;
+import com.example.mystore.Client.Classes.Item;
+import com.example.mystore.R;
+import com.example.mystore.UnfinishedWork.ItemDetailsActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -24,44 +32,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class WishListActivity extends AppCompatActivity {
+public class CartFragment extends Fragment {
     private FirebaseFirestore mDataBaseStore ;
     private CollectionReference itemsRef;
     private FirebaseAuth userAuth;
     private RecyclerView recyclerView;
-    private RecyclerViewAdapter adapter;
+    private RacyclerViewAdapter_Cart adapter;
     private List<Item> itemsList;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_items);
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View V = inflater.inflate(R.layout.fragment_cart,container,false);
         userAuth = FirebaseAuth.getInstance();
         mDataBaseStore = FirebaseFirestore.getInstance();
         itemsRef = mDataBaseStore.collection("users")
-                .document(Objects.requireNonNull(userAuth.getUid())).collection("WishList");
+                .document(Objects.requireNonNull(userAuth.getUid())).collection("Cart");
 
-        recyclerView = findViewById(R.id.recycler_view);
-        GridLayoutManager gridVM = new GridLayoutManager(this,2,GridLayoutManager.VERTICAL,false);
-        recyclerView.setLayoutManager(gridVM);
+        recyclerView = V.findViewById(R.id.recycler_view_cart);
+        LinearLayoutManager LLM = new LinearLayoutManager(getActivity());
+        LLM.setOrientation(RecyclerView.VERTICAL);
+        recyclerView.setLayoutManager(LLM);
 
         itemsList = new ArrayList<>();
 
         fillInTheListOfItems();
         setUpRecyclerView();
+        return V;
     }
     private void setUpRecyclerView() {
         Query query = itemsRef.orderBy("id",Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
                 .setQuery(query,Item.class)
                 .build();
-        adapter = new RecyclerViewAdapter(options);
+        adapter = new RacyclerViewAdapter_Cart(options);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new RacyclerViewAdapter_Cart.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                Intent intent = new Intent(WishListActivity.this,ItemDetailsActivity.class);
+                Intent intent = new Intent(getActivity(), ItemDetailsActivity.class);
                 intent.putExtra("Item",itemsList.get(position));
                 startActivity(intent);
             }
@@ -73,13 +83,13 @@ public class WishListActivity extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if(e != null){
-                    Toast.makeText(WishListActivity.this, "Error Loading", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Error Loading", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 assert queryDocumentSnapshots != null;
                 for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
                     if(documentSnapshot == null){
-                        Toast.makeText(WishListActivity.this, "No items to load", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "No items to load", Toast.LENGTH_SHORT).show();
                     }else{
                         Item item_1 = documentSnapshot.toObject(Item.class);
                         itemsList.add(new Item(item_1));
@@ -87,16 +97,15 @@ public class WishListActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         adapter.startListening();
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         adapter.stopListening();
     }

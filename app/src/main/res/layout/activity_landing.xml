@@ -4,52 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <TextView
-        android:id="@+id/logo_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/artisanat"
-        android:textSize="50sp"
-        android:textColor="@color/colorPrimaryDark"
-        android:fontFamily="@font/kiona_regular"
-        android:layout_marginTop="220dp"
-        android:layout_centerHorizontal="true"/>
-    <Button
-        android:id="@+id/sign_up_btn"
+    tools:context=".Client.Containers.LandingActivity">
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/nav_view"/>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:text="@string/sign_up"
-        android:background="@drawable/shape_full_color_button"
-        android:textColor="#ffffff"
-        android:textSize="18sp"
-        android:fontFamily="Arial,Helvetica,sans-serif"
-        android:textStyle="bold"
-        />
-    <Button
-        android:id="@+id/login_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/sign_up_btn"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:text="@string/login"
-        android:background="@drawable/shape_border_button"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
-        android:fontFamily="Arial,Helvetica,sans-serif"
-        android:textStyle="bold"
-        />
-
-
-
-
+        android:background="?android:attr/windowBackground"
+        app:menu="@menu/button_navigation_bar"
+        tools:ignore="MissingConstraints" />
 
 </RelativeLayout>

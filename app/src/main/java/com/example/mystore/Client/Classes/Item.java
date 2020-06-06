@@ -1,11 +1,7 @@
-package com.example.mystore;
+package com.example.mystore.Client.Classes;
 
-import android.media.Image;
-import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.provider.MediaStore;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 

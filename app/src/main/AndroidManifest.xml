@@ -11,14 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WishListActivity"></activity>
-        <activity android:name=".CartActivity" />
-        <activity android:name=".ItemDetailsActivity" />
-        <activity android:name=".LandingActivity" />
-        <activity android:name=".ItemsActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Client.Containers.LandingActivity"></activity>
+        <activity android:name=".UnfinishedWork.WishListActivity" />
+        <activity android:name=".UnfinishedWork.CartActivity" />
+        <activity android:name=".UnfinishedWork.ItemDetailsActivity" />
+        <activity android:name=".UnfinishedWork.ItemsActivity" />
+        <activity android:name=".Client.Activities.RegisterActivity" />
+        <activity android:name=".Client.Activities.LoginActivity" />
+        <activity android:name=".Client.Containers.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UploadItemsActivity"
+            android:name=".Admin.UploadItemsActivity"
             android:label="Admin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

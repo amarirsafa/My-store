@@ -1,11 +1,11 @@
-package com.example.mystore;
+package com.example.mystore.Client.Classes;
 
 public class User {
     String name,email,CIN,address;
     Integer phoneNumber;
     Boolean admin;
 
-    User(){};
+    public User(){};
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

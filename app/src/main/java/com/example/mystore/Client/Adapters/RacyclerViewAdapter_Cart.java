@@ -1,7 +1,6 @@
-package com.example.mystore;
+package com.example.mystore.Client.Adapters;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mystore.Client.Classes.Item;
+import com.example.mystore.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
-
-import java.util.List;
 
 public class RacyclerViewAdapter_Cart extends FirestoreRecyclerAdapter<Item,RacyclerViewAdapter_Cart.myViewHolder> {
 

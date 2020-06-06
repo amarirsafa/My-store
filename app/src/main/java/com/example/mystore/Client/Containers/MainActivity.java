@@ -1,12 +1,12 @@
-package com.example.mystore;
+package com.example.mystore.Client.Containers;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
+import com.example.mystore.Client.Activities.LoginActivity;
+import com.example.mystore.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Timer;
@@ -27,11 +27,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(fAuth.getCurrentUser() != null){
-                    Intent i = new Intent(MainActivity.this, WishListActivity.class);
+                    Intent i = new Intent(MainActivity.this, LandingActivity.class);
                     startActivity(i);
                     finish();
                 }else{
-                    Intent m = new Intent(MainActivity.this,LoginActivity.class);
+                    Intent m = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(m);
                     finish();
                 }

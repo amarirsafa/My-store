@@ -1,30 +1,32 @@
-package com.example.mystore;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.mystore.Client.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.example.mystore.Client.Classes.Item;
+import com.example.mystore.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
-public class ItemDetailsActivity extends AppCompatActivity {
+public class ItemFragment extends Fragment {
     private int count =0;
     private ImageView imageView;
     private TextView item_title, item_price, item_description,amount_display;
@@ -32,29 +34,28 @@ public class ItemDetailsActivity extends AppCompatActivity {
     private CollectionReference userRef;
     private FirebaseAuth userAuth;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_details);
-
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View V = inflater.inflate(R.layout.fragment_item,container,false);
         userAuth = FirebaseAuth.getInstance();
         userRef = FirebaseFirestore.getInstance().collection("users");
 
 
-        Add_to_cart = findViewById(R.id.add_to_cart_button);
-        Add_to_wishlist = findViewById(R.id.add_to_wishlist_buttton);
+        Add_to_cart = V.findViewById(R.id.add_to_cart_button);
+        Add_to_wishlist = V.findViewById(R.id.add_to_wishlist_buttton);
 
-        imageView = findViewById(R.id.image_gallery);
-        item_title = findViewById(R.id.product_name);
-        item_price = findViewById(R.id.product_price);
-        item_description = findViewById(R.id.product_description);
-        amount_display = findViewById(R.id.amount);
+        imageView = V.findViewById(R.id.image_gallery);
+        item_title = V.findViewById(R.id.product_name);
+        item_price = V.findViewById(R.id.product_price);
+        item_description = V.findViewById(R.id.product_description);
+        amount_display = V.findViewById(R.id.amount);
 
 
         Intent intent = getIntent();
         final Item item = intent.getParcelableExtra("Item");
 
-        findViewById(R.id.plus_button).setOnClickListener(new View.OnClickListener() {
+        V.findViewById(R.id.plus_button).setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
@@ -63,7 +64,7 @@ public class ItemDetailsActivity extends AppCompatActivity {
                 amount_display.setText(count+"");
             }
         });
-        findViewById(R.id.minus_button).setOnClickListener(new View.OnClickListener() {
+        V.findViewById(R.id.minus_button).setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
@@ -93,16 +94,16 @@ public class ItemDetailsActivity extends AppCompatActivity {
                             .set(item).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(ItemDetailsActivity.this, "The item added to cart", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "The item added to cart", Toast.LENGTH_SHORT).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(ItemDetailsActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Something went wrong!", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }else{
-                    Toast.makeText(ItemDetailsActivity.this, "Select a quantity", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Select a quantity", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -114,18 +115,18 @@ public class ItemDetailsActivity extends AppCompatActivity {
                         .set(item).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(ItemDetailsActivity.this, "Item added to WishList", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Item added to WishList", Toast.LENGTH_SHORT).show();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(ItemDetailsActivity.this, "Couldn't load item to WishList", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Couldn't load item to WishList", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
         });
-
+        return V;
     }
 
-
 }
+
