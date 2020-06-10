@@ -18,11 +18,11 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
 
-public class RacyclerViewAdapter_Cart extends FirestoreRecyclerAdapter<Item,RacyclerViewAdapter_Cart.myViewHolder> {
+public class RecyclerViewAdapter_Cart extends FirestoreRecyclerAdapter<Item, RecyclerViewAdapter_Cart.myViewHolder> {
 
     public OnItemClickListener listener;
 
-    public RacyclerViewAdapter_Cart(@NonNull FirestoreRecyclerOptions<Item> options) {
+    public RecyclerViewAdapter_Cart(@NonNull FirestoreRecyclerOptions<Item> options) {
         super(options);
     }
 

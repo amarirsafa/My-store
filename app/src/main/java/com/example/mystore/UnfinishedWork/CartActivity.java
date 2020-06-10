@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.example.mystore.Client.Adapters.RacyclerViewAdapter_Cart;
+import com.example.mystore.Client.Adapters.RecyclerViewAdapter_Cart;
 import com.example.mystore.Client.Classes.Item;
 import com.example.mystore.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -32,7 +32,7 @@ public class CartActivity extends AppCompatActivity {
     private CollectionReference itemsRef;
     private FirebaseAuth userAuth;
     private RecyclerView recyclerView;
-    private RacyclerViewAdapter_Cart adapter;
+    private RecyclerViewAdapter_Cart adapter;
     private List<Item> itemsList;
 
     @Override
@@ -62,10 +62,10 @@ public class CartActivity extends AppCompatActivity {
         FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
                 .setQuery(query,Item.class)
                 .build();
-        adapter = new RacyclerViewAdapter_Cart(options);
+        adapter = new RecyclerViewAdapter_Cart(options);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new RacyclerViewAdapter_Cart.OnItemClickListener() {
+        adapter.setOnItemClickListener(new RecyclerViewAdapter_Cart.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 Intent intent = new Intent(CartActivity.this,ItemDetailsActivity.class);

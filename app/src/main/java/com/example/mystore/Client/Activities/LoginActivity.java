@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.mystore.Client.Containers.LandingActivity;
 import com.example.mystore.UnfinishedWork.ItemsActivity;
 import com.example.mystore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -59,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-                        Intent i = new Intent(LoginActivity.this, ItemsActivity.class);
+                        Intent i = new Intent(LoginActivity.this, LandingActivity.class);
                         startActivity(i);
                         finish();
                     }else{

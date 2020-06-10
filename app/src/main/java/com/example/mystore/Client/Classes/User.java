@@ -1,9 +1,10 @@
 package com.example.mystore.Client.Classes;
 
 public class User {
-    String name,email,CIN,address;
-    Integer phoneNumber;
-    Boolean admin;
+    private String name,email,CIN,gender;
+    private Address address;
+    private Integer phoneNumber;
+    private Boolean admin;
 
     public User(){};
 
@@ -16,12 +17,22 @@ public class User {
     public String getCIN() { return CIN; }
     public void setCIN(String CIN) { this.CIN = CIN; }
 
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
+    public Address getAddress() { return address; }
+    public void setAddress(Address address) { this.address = address; }
 
     public Integer getPhoneNumber() { return phoneNumber; }
     public void setPhoneNumber(Integer phoneNumber) { this.phoneNumber = phoneNumber; }
 
     public Boolean getAdmin() { return admin; }
     public void setAdmin(Boolean admin) { this.admin = admin; }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+
 }

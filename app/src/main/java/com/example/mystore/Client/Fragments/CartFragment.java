@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mystore.Client.Adapters.RacyclerViewAdapter_Cart;
+import com.example.mystore.Client.Adapters.RecyclerViewAdapter_Cart;
 import com.example.mystore.Client.Classes.Item;
 import com.example.mystore.R;
 import com.example.mystore.UnfinishedWork.ItemDetailsActivity;
@@ -37,7 +37,7 @@ public class CartFragment extends Fragment {
     private CollectionReference itemsRef;
     private FirebaseAuth userAuth;
     private RecyclerView recyclerView;
-    private RacyclerViewAdapter_Cart adapter;
+    private RecyclerViewAdapter_Cart adapter;
     private List<Item> itemsList;
 
     @Nullable
@@ -65,10 +65,10 @@ public class CartFragment extends Fragment {
         FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
                 .setQuery(query,Item.class)
                 .build();
-        adapter = new RacyclerViewAdapter_Cart(options);
+        adapter = new RecyclerViewAdapter_Cart(options);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new RacyclerViewAdapter_Cart.OnItemClickListener() {
+        adapter.setOnItemClickListener(new RecyclerViewAdapter_Cart.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 Intent intent = new Intent(getActivity(), ItemDetailsActivity.class);

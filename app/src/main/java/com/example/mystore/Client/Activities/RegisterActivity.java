@@ -72,7 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
         final String userPassword = passwordEditText.getText().toString().trim();
 
         if(userName.isEmpty()){
-            firstNameEditText.setError("Please enter a password");
+            firstNameEditText.setError("Please enter your name");
         }else if(userEmail.isEmpty()){
             emailEditText.setError("Please enter your email");
         }else if(userPassword.isEmpty()){
@@ -85,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
                         user.setEmail(userEmail);
-                        user.setName(userEmail);
+                        user.setName(userName);
                         userUID = Objects.requireNonNull(userAuth.getCurrentUser()).getUid();
                         DocumentReference dRef = DBstore.collection("users").document(userUID);
                         dRef.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
