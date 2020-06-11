@@ -1,10 +1,11 @@
 package com.example.mystore.Client.Classes;
 
 public class Address {
-    String city,country,province,street;
-    int postalCode;
+    String city,country,province,street,postalCode;
 
-    public Address(String city, String country, String province, String street, int postalCode) {
+    public Address(){}
+
+    public Address(String city, String country, String province, String street, String postalCode) {
         this.city = city;
         this.country = country;
         this.province = province;
@@ -44,11 +45,10 @@ public class Address {
         this.street = street;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
-
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
 

@@ -86,6 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
                     if(task.isSuccessful()){
                         user.setEmail(userEmail);
                         user.setName(userName);
+                        user.setAdmin(false);
                         userUID = Objects.requireNonNull(userAuth.getCurrentUser()).getUid();
                         DocumentReference dRef = DBstore.collection("users").document(userUID);
                         dRef.set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
