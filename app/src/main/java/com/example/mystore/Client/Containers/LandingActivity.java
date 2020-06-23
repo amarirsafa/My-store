@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import com.example.mystore.Client.Fragments.CartFragment;
 import com.example.mystore.Client.Fragments.FavoritesFragment;
 import com.example.mystore.Client.Fragments.HomeFragment;
+import com.example.mystore.Client.Fragments.EditProfileFragment;
 import com.example.mystore.Client.Fragments.ProfileFragment;
 import com.example.mystore.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

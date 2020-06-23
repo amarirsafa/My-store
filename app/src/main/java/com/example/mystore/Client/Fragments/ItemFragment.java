@@ -14,7 +14,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
+import com.example.mystore.Client.Adapters.ViewPagerAdapter;
 import com.example.mystore.Client.Classes.Item;
 import com.example.mystore.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -24,15 +26,17 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ItemFragment extends Fragment {
     private int count =0;
-    private ImageView imageView;
+    private ViewPager viewPager;
     private TextView item_title, item_price, item_description,amount_display;
     private Button Add_to_cart,Add_to_wishlist;
     private CollectionReference userRef;
     private FirebaseAuth userAuth;
+    private ArrayList<String> pictures = new ArrayList<>();
 
     @Nullable
     @Override
@@ -45,7 +49,7 @@ public class ItemFragment extends Fragment {
         Add_to_cart = V.findViewById(R.id.add_to_cart_button);
         Add_to_wishlist = V.findViewById(R.id.add_to_wishlist_buttton);
 
-        imageView = V.findViewById(R.id.image_gallery);
+        viewPager = V.findViewById(R.id.image_gallery);
         item_title = V.findViewById(R.id.product_name);
         item_price = V.findViewById(R.id.product_price);
         item_description = V.findViewById(R.id.product_description);
@@ -76,14 +80,17 @@ public class ItemFragment extends Fragment {
             }
         });
 
-
-        //imageView.setImageURI(Uri.parse(item.getPictures().get(0)));
-        Picasso.get().load(item.getPictures().get(0)).fit().centerCrop().into(imageView);
+        assert item != null;
+        @SuppressLint("CutPasteId") ViewPager viewPager = V.findViewById(R.id.image_gallery);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity(), item.getPictures());
+        viewPager.setAdapter(adapter);
+        //Picasso.get().load(item.getPictures().get(0)).fit().centerCrop().into(imageView);
         item_title.setText(item.getTitle());
         item_price.setText(item.getPrice().toString());
         String item_description2 = item.getDescription() + "\n Item category: " + item.getCategory() +
                 "\n this item was made by: " + item.getWho_ma_it() + "\n and it's :" + item.getWhat_is_it();
         item_description.setText(item_description2);
+
 
         Add_to_cart.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,7 +1,7 @@
 package com.example.mystore.Client.Classes;
 
 public class User {
-    private String name,email,CIN,gender;
+    private String name,email,CIN,gender,picture;
     private Address address;
     private Integer phoneNumber;
     private Boolean admin;
@@ -29,10 +29,15 @@ public class User {
     public String getGender() {
         return gender;
     }
-
     public void setGender(String gender) {
         this.gender = gender;
     }
 
+    public String getPicture() {
+        return picture;
+    }
 
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 }

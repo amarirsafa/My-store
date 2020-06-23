@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,6 +38,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
     private List<Item> itemsList;
+    private EditText searchBar;
 
     @Nullable
     @Override
@@ -50,6 +52,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(gridVM);
 
         itemsList = new ArrayList<>();
+        searchBar = V.findViewById(R.id.theBar);
 
         fillInListOfItems();
         setUpRecyclerView();
@@ -94,8 +97,6 @@ public class HomeFragment extends Fragment {
                 itemFragment.setArguments(bundle);
                 getFragmentManager().beginTransaction().replace(R.id.frame_layout,itemFragment).
                         commit();
-                //bundle.putExtra("Item",itemsList.get(position));
-                //startActivity(bundle);
             }
         });
     }
