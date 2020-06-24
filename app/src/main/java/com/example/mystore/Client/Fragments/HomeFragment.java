@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,8 +38,10 @@ public class HomeFragment extends Fragment {
     private CollectionReference itemsRef ;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
-    private List<Item> itemsList;
+    private ArrayList<Item> itemsList,searchedItems;
     private EditText searchBar;
+    private String stringToSearch;
+    //private ImageView searchButton;
 
     @Nullable
     @Override
@@ -52,11 +55,41 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(gridVM);
 
         itemsList = new ArrayList<>();
+        searchedItems = new ArrayList<>();
         searchBar = V.findViewById(R.id.theBar);
-
-        fillInListOfItems();
+        stringToSearch = searchBar.toString();
+        V.findViewById(R.id.search_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //fillInSearchedItems();
+                //setUpRecyclerView();
+            }
+        });
         setUpRecyclerView();
         return V;
+    }
+
+    private void fillInSearchedItems() {
+        itemsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if(e != null){
+                    Toast.makeText(getActivity(), "Error Loading", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                    if(documentSnapshot == null){
+                        Toast.makeText(getActivity(), "No items to load", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Item item_1 = documentSnapshot.toObject(Item.class);
+
+                        if(stringToSearch != null &&  item_1.getTitle().contains(stringToSearch)){
+                            searchedItems.add(item_1);
+                        }
+                    }
+                }
+            }
+        });
     }
 
     private void fillInListOfItems() {

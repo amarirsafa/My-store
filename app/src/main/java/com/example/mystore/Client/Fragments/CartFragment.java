@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mystore.Client.Adapters.RecyclerViewAdapter;
 import com.example.mystore.Client.Adapters.RecyclerViewAdapter_Cart;
 import com.example.mystore.Client.Classes.Item;
 import com.example.mystore.R;
@@ -56,7 +57,6 @@ public class CartFragment extends Fragment {
 
         itemsList = new ArrayList<>();
 
-        fillInTheListOfItems();
         setUpRecyclerView();
         return V;
     }
@@ -71,30 +71,12 @@ public class CartFragment extends Fragment {
         adapter.setOnItemClickListener(new RecyclerViewAdapter_Cart.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                Intent intent = new Intent(getActivity(), ItemDetailsActivity.class);
-                intent.putExtra("Item",itemsList.get(position));
-                startActivity(intent);
-            }
-        });
-    }
-
-    private void fillInTheListOfItems() {
-        itemsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if(e != null){
-                    Toast.makeText(getActivity(), "Error Loading", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                assert queryDocumentSnapshots != null;
-                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                    if(documentSnapshot == null){
-                        Toast.makeText(getActivity(), "No items to load", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Item item_1 = documentSnapshot.toObject(Item.class);
-                        itemsList.add(new Item(item_1));
-                    }
-                }
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("item",itemsList.get(position));
+                ItemFragment itemFragment = new ItemFragment();
+                itemFragment.setArguments(bundle);
+                getFragmentManager().beginTransaction().replace(R.id.frame_layout,itemFragment).
+                        commit();
             }
         });
     }
