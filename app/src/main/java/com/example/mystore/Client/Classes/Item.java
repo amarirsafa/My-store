@@ -6,16 +6,13 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 public class Item implements Parcelable {
-    private static int count =87665;
     private int id;
     private String title,category,who_ma_it,what_is_it,description;
     private Double price,quantity;
     private int amount=0;
     private ArrayList<String> pictures = new ArrayList<>();
 
-    public Item(){
-        setId(++count);
-    }
+    public Item(){}
     public Item(Item item){
         setId(item.getId());
         setTitle(item.getTitle());

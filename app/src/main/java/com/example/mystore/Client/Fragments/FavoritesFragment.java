@@ -55,7 +55,7 @@ public class FavoritesFragment extends Fragment {
         recyclerView.setLayoutManager(gridVM);
 
         itemsList = new ArrayList<>();
-
+        fillInListOfItems();
         setUpRecyclerView();
         return V;
     }
@@ -76,7 +76,26 @@ public class FavoritesFragment extends Fragment {
             }
         });
     }
-    
+    private void fillInListOfItems() {
+        itemsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if(e != null){
+                    Toast.makeText(getActivity(), "Error Loading", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                    if(documentSnapshot == null){
+                        Toast.makeText(getActivity(), "No items to load", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Item item_1 = documentSnapshot.toObject(Item.class);
+                        itemsList.add(new Item(item_1));
+                    }
+                }
+            }
+        });
+    }
+
     @Override
     public void onStart() {
         super.onStart();

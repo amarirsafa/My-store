@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class ItemFragment extends Fragment {
-    private int count =0;
+    private int count =1;
     private ViewPager viewPager;
     private TextView item_title, item_price, item_description,amount_display;
     private Button Add_to_cart,Add_to_wishlist;
@@ -72,7 +72,7 @@ public class ItemFragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                if(count > 0){
+                if(count > 1){
                     assert item != null;
                     item.setAmount(--count);
                     amount_display.setText(count+"");

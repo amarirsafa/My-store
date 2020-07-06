@@ -11,7 +11,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-
+//this adapter is used for the gallery of the pictures inside an item activity or fragment
 public class ViewPagerAdapter extends PagerAdapter {
     private Context context;
     private ArrayList<String> imageUrls;

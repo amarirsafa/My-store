@@ -10,20 +10,22 @@
     <RelativeLayout
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp">
 
         <ImageView
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="15dp"
-            android:src="@drawable/ic_search_black_24dp" />
+            android:paddingVertical="20dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_search_black_24dp"/>
 
         <EditText
             android:id="@+id/theBar"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:hint="@string/search"

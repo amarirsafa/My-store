@@ -60,6 +60,7 @@ public class UploadItemsActivity extends AppCompatActivity {
         title = findViewById(R.id.item_title);
 
         item = new Item();
+        item.setId((int) System.currentTimeMillis());
 
         Spinner spinner1 = findViewById(R.id.what_is_it_spinner);
         Spinner spinner2 = findViewById(R.id.who_made_it_spinner);
@@ -151,7 +152,7 @@ public class UploadItemsActivity extends AppCompatActivity {
     }
 
     private void uploadImages() {
-        String id=item.getId()+"";
+        String id = item.getId()+"";
         final StorageReference fileRef = mStorageRef.child(id);
         for(int i=0;i<productImages.size();i++){
             final int finalI = i;
@@ -188,8 +189,6 @@ public class UploadItemsActivity extends AppCompatActivity {
         String description = descriptionTextView.getText().toString();
         String price1 = priceEditText.getText().toString();
         String quantity1 = quantityEditText.getText().toString();
-
-
 
         if(title.isEmpty()){
             titleTextView.setError("Enter your product title");
@@ -236,7 +235,7 @@ public class UploadItemsActivity extends AppCompatActivity {
     }
 
     private void uploadItem() {
-        String id=item.getId()+"";
+        String id = item.getId()+"";
         DocumentReference dRef = mDataBaseStore.collection("Products").document(id);
         dRef.set(item).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override

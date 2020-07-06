@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mystore.Client.Adapters.RecyclerViewAdapter;
+import com.example.mystore.Client.Adapters.SearchAdapter;
 import com.example.mystore.Client.Classes.Item;
 import com.example.mystore.UnfinishedWork.ItemDetailsActivity;
 import com.example.mystore.R;
@@ -38,8 +40,9 @@ public class HomeFragment extends Fragment {
     private CollectionReference itemsRef ;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
+    private SearchAdapter sadapter;
     private ArrayList<Item> itemsList,searchedItems;
-    private EditText searchBar;
+    private TextView searchBar;
     private String stringToSearch;
     //private ImageView searchButton;
 
@@ -57,15 +60,18 @@ public class HomeFragment extends Fragment {
         itemsList = new ArrayList<>();
         searchedItems = new ArrayList<>();
         searchBar = V.findViewById(R.id.theBar);
-        stringToSearch = searchBar.toString();
+
+        fillInListOfItems();
+        setUpRecyclerView();
+
         V.findViewById(R.id.search_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //fillInSearchedItems();
-                //setUpRecyclerView();
+                stringToSearch = searchBar.getText().toString();
+                fillInSearchedItems();
             }
         });
-        setUpRecyclerView();
+
         return V;
     }
 
@@ -82,12 +88,32 @@ public class HomeFragment extends Fragment {
                         Toast.makeText(getActivity(), "No items to load", Toast.LENGTH_SHORT).show();
                     }else{
                         Item item_1 = documentSnapshot.toObject(Item.class);
-
+                        if(stringToSearch == null){
+                            Toast.makeText(getActivity(), "it's null", Toast.LENGTH_SHORT).show();
+                        }
+                        if (stringToSearch != null){
+                            Toast.makeText(getActivity(), stringToSearch, Toast.LENGTH_SHORT).show();
+                        }
                         if(stringToSearch != null &&  item_1.getTitle().contains(stringToSearch)){
+                            Toast.makeText(getActivity(), "found!", Toast.LENGTH_SHORT).show();
                             searchedItems.add(item_1);
                         }
                     }
                 }
+                sadapter = new SearchAdapter(getActivity(),searchedItems);
+                recyclerView.setAdapter(sadapter);
+
+                sadapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("item",searchedItems.get(position));
+                        ItemFragment itemFragment = new ItemFragment();
+                        itemFragment.setArguments(bundle);
+                        getFragmentManager().beginTransaction().replace(R.id.frame_layout,itemFragment).
+                                commit();
+                    }
+                });
             }
         });
     }
