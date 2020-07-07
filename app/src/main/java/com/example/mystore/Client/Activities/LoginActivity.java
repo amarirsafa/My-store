@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.mystore.Client.Containers.LandingActivity;
-import com.example.mystore.UnfinishedWork.ItemsActivity;
 import com.example.mystore.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

@@ -16,8 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mystore.Client.Adapters.RecyclerViewAdapter;
 import com.example.mystore.Client.Classes.Item;
 import com.example.mystore.R;
-import com.example.mystore.UnfinishedWork.ItemDetailsActivity;
-import com.example.mystore.UnfinishedWork.WishListActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -39,7 +37,6 @@ public class FavoritesFragment extends Fragment {
     private FirebaseAuth userAuth;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
-    private List<Item> itemsList;
 
     @Nullable
     @Override
@@ -54,14 +51,12 @@ public class FavoritesFragment extends Fragment {
         GridLayoutManager gridVM = new GridLayoutManager(getActivity(),2);
         recyclerView.setLayoutManager(gridVM);
 
-        itemsList = new ArrayList<>();
-        fillInListOfItems();
         setUpRecyclerView();
         return V;
     }
     private void setUpRecyclerView() {
         Query query = itemsRef.orderBy("id",Query.Direction.DESCENDING);
-        FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
+        final FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
                 .setQuery(query,Item.class)
                 .build();
         adapter = new RecyclerViewAdapter(options);
@@ -70,28 +65,13 @@ public class FavoritesFragment extends Fragment {
         adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                Intent intent = new Intent(getActivity(), ItemDetailsActivity.class);
-                intent.putExtra("Item",itemsList.get(position));
-                startActivity(intent);
-            }
-        });
-    }
-    private void fillInListOfItems() {
-        itemsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if(e != null){
-                    Toast.makeText(getActivity(), "Error Loading", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                    if(documentSnapshot == null){
-                        Toast.makeText(getActivity(), "No items to load", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Item item_1 = documentSnapshot.toObject(Item.class);
-                        itemsList.add(new Item(item_1));
-                    }
-                }
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("item",options.getSnapshots().get(position));
+                ItemFragment itemFragment = new ItemFragment();
+                itemFragment.setArguments(bundle);
+                getFragmentManager().beginTransaction().replace(R.id.frame_layout,itemFragment)
+                        .addToBackStack(null).
+                        commit();
             }
         });
     }

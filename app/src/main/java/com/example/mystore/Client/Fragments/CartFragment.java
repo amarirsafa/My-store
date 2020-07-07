@@ -38,7 +38,6 @@ public class CartFragment extends Fragment {
     private FirebaseAuth userAuth;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter_Cart adapter;
-    private List<Item> itemsList;
 
     @Nullable
     @Override
@@ -54,14 +53,13 @@ public class CartFragment extends Fragment {
         LLM.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(LLM);
 
-        itemsList = new ArrayList<>();
-        fillInListOfItems();
+
         setUpRecyclerView();
         return V;
     }
     private void setUpRecyclerView() {
         Query query = itemsRef.orderBy("id",Query.Direction.DESCENDING);
-        FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
+        final FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
                 .setQuery(query,Item.class)
                 .build();
         adapter = new RecyclerViewAdapter_Cart(options);
@@ -71,7 +69,7 @@ public class CartFragment extends Fragment {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("item",itemsList.get(position));
+                bundle.putParcelable("item",options.getSnapshots().get(position));
                 ItemFragment itemFragment = new ItemFragment();
                 itemFragment.setArguments(bundle);
                 getFragmentManager().beginTransaction().replace(R.id.frame_layout,itemFragment).
@@ -80,31 +78,15 @@ public class CartFragment extends Fragment {
 
             @Override
             public void onDeleteClick(DocumentSnapshot documentSnapshot, int position) {
-                itemsRef.document(String.valueOf(itemsList.get(position).getId())).delete();
+                itemsRef.document(String.valueOf(options.getSnapshots().get(position).getId())).delete();
             }
 
             @Override
             public void onSaveClick(DocumentSnapshot documentSnapshot, int position) {
-                
-            }
-        });
-    }
-    private void fillInListOfItems() {
-        itemsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if(e != null){
-                    Toast.makeText(getActivity(), "Error Loading", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                    if(documentSnapshot == null){
-                        Toast.makeText(getActivity(), "No items to load", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Item item_1 = documentSnapshot.toObject(Item.class);
-                        itemsList.add(new Item(item_1));
-                    }
-                }
+                mDataBaseStore.collection("users")
+                        .document(Objects.requireNonNull(userAuth.getUid()))
+                        .collection("WishList").add(options.getSnapshots().get(position));
+                itemsRef.document(String.valueOf(options.getSnapshots().get(position).getId())).delete();
             }
         });
     }

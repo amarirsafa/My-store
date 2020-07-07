@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.mystore.UnfinishedWork.ItemsActivity;
+import com.example.mystore.Client.Containers.LandingActivity;
 import com.example.mystore.R;
 import com.example.mystore.Client.Classes.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -94,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
                                     Toast.makeText(RegisterActivity.this, "Your account has been created!", Toast.LENGTH_SHORT).show();
-                                    Intent i = new Intent(RegisterActivity.this, ItemsActivity.class);
+                                    Intent i = new Intent(RegisterActivity.this, LandingActivity.class);
                                     startActivity(i);
                                     finish();
                                 }else{

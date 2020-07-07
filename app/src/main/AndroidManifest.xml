@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Client.Containers.LandingActivity"></activity>
+        <activity android:name=".Client.Containers.AdminLanding"></activity>
+        <activity android:name=".Client.Containers.LandingActivity" />
         <activity android:name=".UnfinishedWork.WishListActivity" />
         <activity android:name=".UnfinishedWork.CartActivity" />
         <activity android:name=".UnfinishedWork.ItemDetailsActivity" />

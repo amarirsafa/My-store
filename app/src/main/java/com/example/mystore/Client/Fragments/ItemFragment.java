@@ -109,8 +109,6 @@ public class ItemFragment extends Fragment {
                             Toast.makeText(getActivity(), "Something went wrong!", Toast.LENGTH_SHORT).show();
                         }
                     });
-                }else{
-                    Toast.makeText(getActivity(), "Select a quantity", Toast.LENGTH_SHORT).show();
                 }
             }
         });

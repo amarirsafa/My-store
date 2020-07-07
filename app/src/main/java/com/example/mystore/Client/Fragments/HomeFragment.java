@@ -2,6 +2,7 @@ package com.example.mystore.Client.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mystore.Client.Adapters.RecyclerViewAdapter;
 import com.example.mystore.Client.Adapters.SearchAdapter;
 import com.example.mystore.Client.Classes.Item;
-import com.example.mystore.UnfinishedWork.ItemDetailsActivity;
 import com.example.mystore.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
@@ -34,6 +34,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class HomeFragment extends Fragment {
     private FirebaseFirestore mDataBaseStore ;
@@ -41,7 +42,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
     private SearchAdapter sadapter;
-    private ArrayList<Item> itemsList,searchedItems;
+    private ArrayList<Item> searchedItems;
     private TextView searchBar;
     private String stringToSearch;
     //private ImageView searchButton;
@@ -57,11 +58,9 @@ public class HomeFragment extends Fragment {
         GridLayoutManager gridVM = new GridLayoutManager(getActivity(),2);
         recyclerView.setLayoutManager(gridVM);
 
-        itemsList = new ArrayList<>();
         searchedItems = new ArrayList<>();
         searchBar = V.findViewById(R.id.theBar);
 
-        fillInListOfItems();
         setUpRecyclerView();
 
         V.findViewById(R.id.search_button).setOnClickListener(new View.OnClickListener() {
@@ -110,38 +109,20 @@ public class HomeFragment extends Fragment {
                         bundle.putParcelable("item",searchedItems.get(position));
                         ItemFragment itemFragment = new ItemFragment();
                         itemFragment.setArguments(bundle);
-                        getFragmentManager().beginTransaction().replace(R.id.frame_layout,itemFragment).
-                                commit();
+                        getFragmentManager().beginTransaction().replace(R.id.frame_layout,itemFragment)
+                                .addToBackStack(null)
+                                .commit();
                     }
                 });
             }
         });
     }
 
-    private void fillInListOfItems() {
-        itemsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if(e != null){
-                    Toast.makeText(getActivity(), "Error Loading", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                    if(documentSnapshot == null){
-                        Toast.makeText(getActivity(), "No items to load", Toast.LENGTH_SHORT).show();
-                    }else{
-                        Item item_1 = documentSnapshot.toObject(Item.class);
-                        itemsList.add(new Item(item_1));
-                    }
-                }
-            }
-        });
-    }
 
 
     private void setUpRecyclerView() {
         Query query = itemsRef.orderBy("id",Query.Direction.DESCENDING);
-        FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
+        final FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
                 .setQuery(query,Item.class)
                 .build();
         adapter = new RecyclerViewAdapter(options);
@@ -151,11 +132,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("item",itemsList.get(position));
+                bundle.putParcelable("item",options.getSnapshots().get(position));
                 ItemFragment itemFragment = new ItemFragment();
                 itemFragment.setArguments(bundle);
-                getFragmentManager().beginTransaction().replace(R.id.frame_layout,itemFragment).
-                        commit();
+                getFragmentManager().beginTransaction().replace(R.id.frame_layout,itemFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
     }
