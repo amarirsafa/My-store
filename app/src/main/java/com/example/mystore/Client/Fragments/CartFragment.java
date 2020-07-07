@@ -17,7 +17,6 @@ import com.example.mystore.Client.Adapters.RecyclerViewAdapter;
 import com.example.mystore.Client.Adapters.RecyclerViewAdapter_Cart;
 import com.example.mystore.Client.Classes.Item;
 import com.example.mystore.R;
-import com.example.mystore.UnfinishedWork.ItemDetailsActivity;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -77,6 +76,16 @@ public class CartFragment extends Fragment {
                 itemFragment.setArguments(bundle);
                 getFragmentManager().beginTransaction().replace(R.id.frame_layout,itemFragment).
                         commit();
+            }
+
+            @Override
+            public void onDeleteClick(DocumentSnapshot documentSnapshot, int position) {
+                itemsRef.document(String.valueOf(itemsList.get(position).getId())).delete();
+            }
+
+            @Override
+            public void onSaveClick(DocumentSnapshot documentSnapshot, int position) {
+                
             }
         });
     }

@@ -49,12 +49,14 @@ public class RecyclerViewAdapter_Cart extends FirestoreRecyclerAdapter<Item, Rec
 
     class myViewHolder extends RecyclerView.ViewHolder{
         ImageView Item_Image;
-        TextView Item_Title,Item_amount;
+        TextView Item_Title,Item_amount,remove,save;
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             Item_Image = itemView.findViewById(R.id.Item_image_cart);
             Item_Title = itemView.findViewById(R.id.Item_title_cart);
             Item_amount = itemView.findViewById(R.id.Item_amount_cart);
+            remove = itemView.findViewById(R.id.remove);
+            save = itemView.findViewById(R.id.save);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -64,10 +66,34 @@ public class RecyclerViewAdapter_Cart extends FirestoreRecyclerAdapter<Item, Rec
                     }
                 }
             });
+            remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onDeleteClick(getSnapshots().getSnapshot(position),position);
+                        }
+                    }
+                }
+            });
+            save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onSaveClick(getSnapshots().getSnapshot(position),position);
+                        }
+                    }
+                }
+            });
         }
     }
     public interface OnItemClickListener{
         void onItemClick(DocumentSnapshot documentSnapshot,int position);
+        void onDeleteClick(DocumentSnapshot documentSnapshot,int position);
+        void onSaveClick(DocumentSnapshot documentSnapshot,int position);
     }
     public void setOnItemClickListener(OnItemClickListener listener){
         this.listener=listener;
