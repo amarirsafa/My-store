@@ -1,8 +1,10 @@
-package com.example.mystore.Client.Containers;
+package com.example.mystore.Admin.containers;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.mystore.R;
 
 public class AdminLanding extends AppCompatActivity {
 

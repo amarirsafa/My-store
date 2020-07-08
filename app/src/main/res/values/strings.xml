@@ -64,7 +64,7 @@
     <string name="address">Address</string>
     <string name="street_address">street address</string>
     <string name="phone_number">Phone number</string>
-    <string name="gendertype">male/female/others...</string>
+    <string name="gendertype">male/female</string>
     <string name="country">Country</string>
     <string name="province">Province</string>
     <string name="city">city</string>

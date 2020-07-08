@@ -58,7 +58,7 @@ public class ProfileFragment extends Fragment {
                 assert user != null;
                 userName.setText(user.getName());
                 userEmail.setText(user.getEmail());
-                if(!user.getGender().equals("")){
+                if(user.getGender()!=null){
                     userGender.setText(user.getGender());
                 }
                 if(user.getPhoneNumber()!= null){
