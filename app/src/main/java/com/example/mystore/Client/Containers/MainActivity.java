@@ -34,12 +34,11 @@ import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity {
     private Timer timer;
     private FirebaseAuth fAuth;
-    private User currentUser;
     private FirebaseFirestore mDataBaseStore ;
     private CollectionReference userColRef;
     private DocumentReference docRef;
     private User user;
-    private boolean adminState=false;
+    public boolean adminState=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,39 +49,51 @@ public class MainActivity extends AppCompatActivity {
         mDataBaseStore = FirebaseFirestore.getInstance();
         userColRef = mDataBaseStore.collection("users");
         user = new User();
-        if(fAuth.getCurrentUser() != null) {
-            userColRef.whereEqualTo("email",fAuth.getCurrentUser().getEmail())
-                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                            user = document.toObject(User.class);
-                            if(user.getAdmin()){
-                                adminState = true;
-                            }
-                        }
-                    } else {
-                        Log.d("TAG", "Error getting documents: ", task.getException());
-                    }
-                }
-            });
-        }
+//        if(fAuth.getCurrentUser() != null) {
+//            userColRef.whereEqualTo("email",fAuth.getCurrentUser().getEmail())
+//                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                @Override
+//                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                    if (task.isSuccessful()) {
+//                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+//                            user = document.toObject(User.class);
+//                            if(user.getAdmin()){
+//                                adminState = true;
+//                            }
+//                        }
+//                    } else {
+//                        Log.d("TAG", "Error getting documents: ", task.getException());
+//                    }
+//                }
+//            });
+//        }
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if(fAuth.getCurrentUser() != null){
-                    if(adminState){
-                        Toast.makeText(MainActivity.this, "its happening here", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(MainActivity.this, AdminLanding.class);
-                        startActivity(i);
-                        finish();
-                    }else{
-                        Intent i = new Intent(MainActivity.this, LandingActivity.class);
-                        startActivity(i);
-                        finish();
-                    }
+                if(fAuth.getCurrentUser() != null) {
+                    userColRef.whereEqualTo("email",fAuth.getCurrentUser().getEmail())
+                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                                    user = document.toObject(User.class);
+                                    if(user.getAdmin()){
+                                        Intent ii = new Intent(MainActivity.this, AdminLanding.class);
+                                        startActivity(ii);
+                                        finish();
+                                    }else{
+                                        Intent ii = new Intent(MainActivity.this, LandingActivity.class);
+                                        startActivity(ii);
+                                        finish();
+                                    }
+                                }
+                            } else {
+                                Log.d("TAG", "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
                 }else{
                     Intent m = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(m);
