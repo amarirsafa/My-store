@@ -23,6 +23,7 @@ import com.example.mystore.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -30,9 +31,11 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class UploadItemsActivity extends AppCompatActivity {
     private final int CODE_MULTI_IMG_GALLARY=10;
+    private FirebaseAuth fAuth;
     private String what_is_it,who_made_it;
     private Item item;
     private ArrayList<ImageView> imgs = new ArrayList<>();
@@ -46,6 +49,7 @@ public class UploadItemsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_items);
+        fAuth = FirebaseAuth.getInstance();
         loadingAnimation  = new LoadingDialog(UploadItemsActivity.this);
 
         mDataBaseStore = FirebaseFirestore.getInstance();
@@ -144,7 +148,6 @@ public class UploadItemsActivity extends AppCompatActivity {
 
                 loadingAnimation.startLoadingDialog();
                 fillTheItemForm();
-                uploadImages();
 
 
             }
@@ -190,6 +193,7 @@ public class UploadItemsActivity extends AppCompatActivity {
         String price1 = priceEditText.getText().toString();
         String quantity1 = quantityEditText.getText().toString();
 
+        item.setSellerId(Objects.requireNonNull(fAuth.getCurrentUser()).getUid());
         if(title.isEmpty()){
             titleTextView.setError("Enter your product title");
         }else{
@@ -230,13 +234,27 @@ public class UploadItemsActivity extends AppCompatActivity {
             item.setPictures(productImagesString);
             item.setWhat_is_it(what_is_it);
             item.setWho_ma_it(who_made_it);
-
         }
+        uploadImages();
     }
 
     private void uploadItem() {
         String id = item.getId()+"";
         DocumentReference dRef = mDataBaseStore.collection("Products").document(id);
+        DocumentReference storeRef = mDataBaseStore.collection("users")
+                .document(Objects.requireNonNull(fAuth.getCurrentUser()).getUid())
+                .collection("store").document(id);
+        storeRef.set(item).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(UploadItemsActivity.this, "Item added to store", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(UploadItemsActivity.this, "Item not added something went wrong!", Toast.LENGTH_SHORT).show();
+            }
+        });
         dRef.set(item).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

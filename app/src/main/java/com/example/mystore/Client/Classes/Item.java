@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Item implements Parcelable {
     private int id;
-    private String title,category,who_ma_it,what_is_it,description;
+    private String title,category,who_ma_it,what_is_it,description,sellerId;
     private Double price,quantity;
     private int amount=0;
     private ArrayList<String> pictures = new ArrayList<>();
@@ -23,6 +23,7 @@ public class Item implements Parcelable {
         setWhat_is_it(item.getWhat_is_it());
         setWho_ma_it(item.getWho_ma_it());
         setPictures(item.getPictures());
+        setSellerId((item.getSellerId()));
     }
 
     protected Item(Parcel in) {
@@ -43,6 +44,7 @@ public class Item implements Parcelable {
             quantity = in.readDouble();
         }
         pictures = in.createStringArrayList();
+        sellerId= in.readString();
     }
 
     public static final Creator<Item> CREATOR = new Creator<Item>() {
@@ -87,6 +89,9 @@ public class Item implements Parcelable {
     public int getAmount() {return amount;}
     public void setAmount(int amount) { this.amount = amount; }
 
+    public String getSellerId(){return sellerId;}
+    public void setSellerId(String sellerId){this.sellerId=sellerId;}
+
     @Override
     public int describeContents() {
         return 0;
@@ -113,5 +118,6 @@ public class Item implements Parcelable {
             dest.writeDouble(quantity);
         }
         dest.writeStringList(pictures);
+        dest.writeString(sellerId);
     }
 }

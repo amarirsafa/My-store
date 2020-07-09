@@ -49,24 +49,7 @@ public class MainActivity extends AppCompatActivity {
         mDataBaseStore = FirebaseFirestore.getInstance();
         userColRef = mDataBaseStore.collection("users");
         user = new User();
-//        if(fAuth.getCurrentUser() != null) {
-//            userColRef.whereEqualTo("email",fAuth.getCurrentUser().getEmail())
-//                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                @Override
-//                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                    if (task.isSuccessful()) {
-//                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-//                            user = document.toObject(User.class);
-//                            if(user.getAdmin()){
-//                                adminState = true;
-//                            }
-//                        }
-//                    } else {
-//                        Log.d("TAG", "Error getting documents: ", task.getException());
-//                    }
-//                }
-//            });
-//        }
+
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
