@@ -7,16 +7,17 @@
     tools:context=".Admin.containers.AdminLanding">
 
     <FrameLayout
-        android:id="@+id/frame_layout"
+        android:id="@+id/admin_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/nav_view"/>
+        android:layout_above="@id/admin_nav_view"
+        tools:ignore="NotSibling" />
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_view"
+        android:id="@+id/admin_nav_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="?android:attr/windowBackground"
-        app:menu="@menu/button_navigation_bar"
+        app:menu="@menu/admin_buttom_navigation_bar"
         tools:ignore="MissingConstraints" />
 </RelativeLayout>

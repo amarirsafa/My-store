@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Admin.UploadItemsActivity"
+            android:name=".Admin.Activities.UploadItemsActivity"
             android:label="Admin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

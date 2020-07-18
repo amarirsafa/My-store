@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/admin_nav_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="home"/>
+    <item
+        android:id="@+id/admin_nav_profil"
+        android:icon="@drawable/ic_person_outline_black_24dp"
+        android:title="profil"/>
+    <item
+        android:id="@+id/admin_nav_unchecked_orders"
+        android:icon="@drawable/ic_unchecked_orders"
+        android:title="unchecked orders"/>
+    <item
+        android:id="@+id/admin_nav_checked_orders"
+        android:icon="@drawable/ic_checked_orders"
+        android:title="checked orders"/>
+</menu>

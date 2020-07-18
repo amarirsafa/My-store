@@ -1,14 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Admin.Fragments.AdminHomeFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context=".Admin.Fragments.AdminHomeFragment"
+    android:orientation="vertical"
+    android:background="@color/nutralColor">
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="@string/welcome_admin"
+        android:textColor="#000"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center"
+        android:text="@string/admin_text"
+        android:textSize="15sp" />
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginTop="50dp"
+        android:layout_marginHorizontal="20dp"
+        android:background="@drawable/shape_white_grey_full_border"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_new_listing"
+            android:textColor="@color/grey"
+            android:background="@drawable/shape_dotted_border"
+            android:padding="20dp"
+            android:gravity="center"
+            android:layout_margin="10dp"/>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="1dp" />
+    </LinearLayout>
 
-</FrameLayout>
+
+</LinearLayout>

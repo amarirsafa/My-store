@@ -79,5 +79,8 @@
     <string name="Edit_profile">Edit profile</string>
     <string name="gender">Gender</string>
     <string name="search">Search...</string>
+    <string name="admin_text">on this page you can see all the listings you have and you can also create new one</string>
+    <string name="welcome_admin">Welcome to your shop</string>
+    <string name="add_new_listing">ADD NEW LISTING</string>
 
 </resources>
