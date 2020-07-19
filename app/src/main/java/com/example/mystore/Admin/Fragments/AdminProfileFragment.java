@@ -1,4 +1,4 @@
-package com.example.mystore.Client.Fragments;
+package com.example.mystore.Admin.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.mystore.Client.Activities.LoginActivity;
 import com.example.mystore.Classes.User;
+import com.example.mystore.Client.Fragments.EditProfileFragment;
 import com.example.mystore.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,7 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
-public class ProfileFragment extends Fragment {
+public class AdminProfileFragment extends Fragment {
     private View V;
     private FirebaseAuth userAuth;
     private DocumentReference userRef;
@@ -43,14 +44,6 @@ public class ProfileFragment extends Fragment {
         mDataBaseStore = FirebaseFirestore.getInstance();
         userRef = mDataBaseStore.collection("users")
                 .document(Objects.requireNonNull(userAuth.getUid()));
-        userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                user = documentSnapshot.toObject(User.class);
-                TextView t = V.findViewById(R.id.User_Name);
-                t.setText(user.getName());
-            }
-        });
         address = V.findViewById(R.id.user_address);
         userPhone = V.findViewById(R.id.user_phone_number);
         userGender = V.findViewById(R.id.user_gender);
@@ -80,7 +73,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 EditProfileFragment editProfileFragment = new EditProfileFragment();
-                getFragmentManager().beginTransaction().replace(R.id.frame_layout, editProfileFragment).
+                getFragmentManager().beginTransaction().replace(R.id.admin_frame_layout, editProfileFragment).
                         commit();
             }
         });

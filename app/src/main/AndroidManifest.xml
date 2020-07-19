@@ -11,12 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Admin.containers.AdminLanding"></activity>
+        <activity android:name=".Admin.containers.AdminLanding" />
+        <activity android:name=".Admin.Activities.UploadItemsActivity"/>
+
         <activity android:name=".Client.Containers.LandingActivity" />
-        <activity android:name=".UnfinishedWork.WishListActivity" />
-        <activity android:name=".UnfinishedWork.CartActivity" />
-        <activity android:name=".UnfinishedWork.ItemDetailsActivity" />
-        <activity android:name=".UnfinishedWork.ItemsActivity" />
         <activity android:name=".Client.Activities.RegisterActivity" />
         <activity android:name=".Client.Activities.LoginActivity" />
         <activity android:name=".Client.Containers.MainActivity">
@@ -27,16 +25,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Admin.Activities.UploadItemsActivity"
-            android:label="Admin">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
+<!--        <activity-->
+<!--            android:name=".Admin.Activities.UploadItemsActivity"-->
+<!--            android:label="Admin">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
     </application>
 
 </manifest>

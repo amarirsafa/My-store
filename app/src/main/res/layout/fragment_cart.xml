@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".UnfinishedWork.CartActivity"
     android:layout_margin="10dp">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -15,4 +14,32 @@
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp"
         tools:ignore="MissingConstraints" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="10dp">
+
+        <Button
+            android:id="@+id/empty_cart_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_black_border_full_border"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="15dp"
+            android:text="@string/empty_cart"/>
+        <Button
+            android:id="@+id/checkout_btn"
+            android:layout_toEndOf="@id/empty_cart_btn"
+            android:layout_marginStart="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_dark_button"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="15dp"
+            android:layout_alignParentEnd="true"
+            android:textColor="#FFF"
+            android:text="@string/checkout"/>
+
+    </RelativeLayout>
 </LinearLayout>

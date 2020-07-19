@@ -1,4 +1,4 @@
-package com.example.mystore.Client.Classes;
+package com.example.mystore.Classes;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -9,7 +9,7 @@ public class Item implements Parcelable {
     private int id;
     private String title,category,who_ma_it,what_is_it,description,sellerId;
     private Double price,quantity;
-    private int amount=0;
+    private int amount=1;
     private ArrayList<String> pictures = new ArrayList<>();
 
     public Item(){}

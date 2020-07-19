@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.mystore.Admin.Fragments.AdminHomeFragment;
+import com.example.mystore.Admin.Fragments.AdminProfileFragment;
 import com.example.mystore.Client.Fragments.CartFragment;
 import com.example.mystore.Client.Fragments.FavoritesFragment;
 import com.example.mystore.Client.Fragments.HomeFragment;
@@ -26,7 +27,7 @@ public class AdminLanding extends AppCompatActivity {
         buttomNavBar.setOnNavigationItemSelectedListener(navListener);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.admin_frame_layout,
-                    new HomeFragment()).commit();
+                    new AdminHomeFragment()).commit();
         }
     }
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -44,9 +45,9 @@ public class AdminLanding extends AppCompatActivity {
 //                        case R.id.admin_nav_checked_orders:
 //                            selectedFragment = new CartFragment();
 //                            break;
-//                        case R.id.admin_nav_profil:
-//                            selectedFragment = new ProfileFragment();
-//                            break;
+                        case R.id.admin_nav_profil:
+                            selectedFragment = new AdminProfileFragment();
+                            break;
                     }
                     assert selectedFragment != null;
                     getSupportFragmentManager().beginTransaction().replace(R.id.admin_frame_layout,

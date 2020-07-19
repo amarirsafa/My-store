@@ -17,7 +17,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mystore.Client.Classes.Item;
+import com.example.mystore.Admin.containers.AdminLanding;
+import com.example.mystore.Classes.Item;
 import com.example.mystore.LoadingDialog;
 import com.example.mystore.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -152,6 +153,13 @@ public class UploadItemsActivity extends AppCompatActivity {
 
             }
         });
+        findViewById(R.id.cancel_item).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(UploadItemsActivity.this, AdminLanding.class);
+                startActivity(i);
+            }
+        });
     }
 
     private void uploadImages() {
@@ -247,7 +255,7 @@ public class UploadItemsActivity extends AppCompatActivity {
         storeRef.set(item).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(UploadItemsActivity.this, "Item added to store", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(UploadItemsActivity.this, "Item added to store", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -259,6 +267,8 @@ public class UploadItemsActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 loadingAnimation.dismissDialog();
+                Intent i = new Intent(UploadItemsActivity.this, AdminLanding.class);
+                startActivity(i);
                 Toast.makeText(UploadItemsActivity.this, "The item has been successfully saved", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {

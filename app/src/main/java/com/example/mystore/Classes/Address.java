@@ -1,4 +1,4 @@
-package com.example.mystore.Client.Classes;
+package com.example.mystore.Classes;
 
 public class Address {
     String city,country,province,street,postalCode;

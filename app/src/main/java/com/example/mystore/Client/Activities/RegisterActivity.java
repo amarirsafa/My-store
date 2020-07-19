@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.mystore.Client.Containers.LandingActivity;
 import com.example.mystore.R;
-import com.example.mystore.Client.Classes.User;
+import com.example.mystore.Classes.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

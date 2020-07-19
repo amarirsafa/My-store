@@ -1,13 +1,11 @@
 package com.example.mystore.Client.Fragments;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,14 +15,13 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.mystore.Client.Adapters.ViewPagerAdapter;
-import com.example.mystore.Client.Classes.Item;
+import com.example.mystore.Classes.Item;
 import com.example.mystore.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -95,7 +92,6 @@ public class ItemFragment extends Fragment {
         Add_to_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(item.getAmount() != 0){
                     userRef.document(Objects.requireNonNull(userAuth.getUid())).collection("Cart")
                             .document(item.getId() + "")
                             .set(item).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -109,7 +105,6 @@ public class ItemFragment extends Fragment {
                             Toast.makeText(getActivity(), "Something went wrong!", Toast.LENGTH_SHORT).show();
                         }
                     });
-                }
             }
         });
         Add_to_wishlist.setOnClickListener(new View.OnClickListener() {

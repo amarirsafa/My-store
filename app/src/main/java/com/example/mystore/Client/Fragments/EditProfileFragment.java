@@ -14,8 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.mystore.Client.Classes.Address;
-import com.example.mystore.Client.Classes.User;
+import com.example.mystore.Classes.Address;
+import com.example.mystore.Classes.User;
 import com.example.mystore.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -87,6 +87,7 @@ public class EditProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 address = addAddress();//this function will add the address to the users class before storing it in the database!
+                Toast.makeText(getActivity(), address.getStreet()+"", Toast.LENGTH_SHORT).show();
                 editUser(); //this function will load everything to the database;
             }
         });
@@ -96,12 +97,15 @@ public class EditProfileFragment extends Fragment {
 
 
     private void editUser() {
-        userRef.update("gender",userGender.getText().toString(),"phoneNumber"
-                ,userPhone.getText(),"CIN",userCIN.getText()+"","address",address)
+        userRef.update("CIN",userCIN.getText()+"","gender",userGender.getText()+""
+                ,"phoneNumber",Integer.valueOf(String.valueOf(userPhone.getText())),"address",address)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(getActivity(), "Information saved!", Toast.LENGTH_SHORT).show();
+                        ProfileFragment ProfileFragment = new ProfileFragment();
+                        getFragmentManager().beginTransaction().replace(R.id.frame_layout, ProfileFragment).
+                                commit();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override

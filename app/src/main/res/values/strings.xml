@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">My Store</string>
+    <string name="app_name">Artisanat</string>
     <string name="artisanat">Artisanat</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Sign in</string>
@@ -82,5 +82,7 @@
     <string name="admin_text">on this page you can see all the listings you have and you can also create new one</string>
     <string name="welcome_admin">Welcome to your shop</string>
     <string name="add_new_listing">ADD NEW LISTING</string>
+    <string name="empty_cart">Empty Cart</string>
+    <string name="checkout">CheckOut</string>
 
 </resources>

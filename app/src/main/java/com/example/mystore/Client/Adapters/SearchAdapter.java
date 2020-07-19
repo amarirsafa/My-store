@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mystore.Client.Classes.Item;
+import com.example.mystore.Classes.Item;
 import com.example.mystore.R;
 import com.squareup.picasso.Picasso;
 
