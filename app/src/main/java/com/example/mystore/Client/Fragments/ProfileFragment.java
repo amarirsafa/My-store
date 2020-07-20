@@ -23,8 +23,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.Objects;
+
+import static com.example.mystore.R.id.profile_image;
 
 public class ProfileFragment extends Fragment {
     private View V;
@@ -41,6 +45,7 @@ public class ProfileFragment extends Fragment {
         V = inflater.inflate(R.layout.fragment_profile,container,false);
         userAuth = FirebaseAuth.getInstance();
         mDataBaseStore = FirebaseFirestore.getInstance();
+        profileImage = V.findViewById(R.id.profile_image);
         userRef = mDataBaseStore.collection("users")
                 .document(Objects.requireNonNull(userAuth.getUid()));
         userRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -51,6 +56,7 @@ public class ProfileFragment extends Fragment {
                 t.setText(user.getName());
             }
         });
+
         address = V.findViewById(R.id.user_address);
         userPhone = V.findViewById(R.id.user_phone_number);
         userGender = V.findViewById(R.id.user_gender);
@@ -72,6 +78,13 @@ public class ProfileFragment extends Fragment {
                 }
                 if(user.getAddress() != null){
                     address.setText(user.getAddress().toString());
+                }
+                if(user.getPicture() != null){
+                    Picasso.get().
+                            load(Uri.parse(user.getPicture())).
+                            fit().
+                            centerCrop().
+                            into(profileImage);
                 }
 
             }

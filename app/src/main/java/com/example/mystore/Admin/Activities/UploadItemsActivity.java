@@ -146,13 +146,11 @@ public class UploadItemsActivity extends AppCompatActivity {
         findViewById(R.id.save_item_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 loadingAnimation.startLoadingDialog();
                 fillTheItemForm();
-
-
             }
         });
+
         findViewById(R.id.cancel_item).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

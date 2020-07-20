@@ -19,10 +19,14 @@ import com.example.mystore.Classes.User;
 import com.example.mystore.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.Objects;
 
@@ -33,13 +37,14 @@ public class EditProfileFragment extends Fragment {
     private FirebaseAuth userAuth;
     private DocumentReference userRef;
     private FirebaseFirestore mDataBaseStore ;
+    private StorageReference mStorageRef;
     private TextView country,province,city,streetAdd,postalCode,userPhone,userCIN,userGender;
     private ImageView profileImage;
     private Address address;
     private View V;
-    private DocumentReference userRef1;
     private User user;
     private Uri mImageUri;
+    private String downloadUrl;
 
 
 
@@ -50,6 +55,7 @@ public class EditProfileFragment extends Fragment {
 
         userAuth = FirebaseAuth.getInstance();
         mDataBaseStore = FirebaseFirestore.getInstance();
+        mStorageRef = FirebaseStorage.getInstance().getReference("Users");
         userRef = mDataBaseStore.collection("users").document(Objects.requireNonNull(userAuth.getUid()));
 
         city = V.findViewById(R.id.city);
@@ -86,9 +92,12 @@ public class EditProfileFragment extends Fragment {
         V.findViewById(R.id.Save_changes).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 address = addAddress();//this function will add the address to the users class before storing it in the database!
-                Toast.makeText(getActivity(), address.getStreet()+"", Toast.LENGTH_SHORT).show();
-                editUser(); //this function will load everything to the database;
+                if(mImageUri != null){
+                    uploadPicture();
+                }
+                //editUser(); //this function will load everything to the database;
             }
         });
 
@@ -97,15 +106,15 @@ public class EditProfileFragment extends Fragment {
 
 
     private void editUser() {
-        userRef.update("CIN",userCIN.getText()+"","gender",userGender.getText()+""
-                ,"phoneNumber",Integer.valueOf(String.valueOf(userPhone.getText())),"address",address)
+        userRef.update("address",address,"cin",userCIN.getText()+"","gender",userGender.getText()+""
+                ,"phoneNumber",Integer.valueOf(String.valueOf(userPhone.getText())))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(getActivity(), "Information saved!", Toast.LENGTH_SHORT).show();
-                        ProfileFragment ProfileFragment = new ProfileFragment();
-                        getFragmentManager().beginTransaction().replace(R.id.frame_layout, ProfileFragment).
-                                commit();
+//                        Toast.makeText(getActivity(), "Information saved!", Toast.LENGTH_SHORT).show();
+//                        ProfileFragment ProfileFragment = new ProfileFragment();
+//                        getFragmentManager().beginTransaction().replace(R.id.frame_layout, ProfileFragment).
+//                                commit();
                     }
                 }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -114,6 +123,7 @@ public class EditProfileFragment extends Fragment {
             }
         });
     }
+
 
     private Address addAddress() {
         address = new Address();
@@ -134,4 +144,39 @@ public class EditProfileFragment extends Fragment {
             profileImage.setImageURI(mImageUri);
         }
     }
+
+    private void uploadPicture() {
+        final StorageReference fileRef = mStorageRef.child(Objects.requireNonNull(userAuth.getUid()));
+        fileRef.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                getImage();
+            }
+        });
+    }
+     private void getImage(){
+         mStorageRef.child(Objects.requireNonNull(userAuth.getUid())).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+             @Override
+             public void onSuccess(Uri uri) {
+                 downloadUrl = uri.toString();
+                 userRef.update("CIN",userCIN.getText()+"","gender",userGender.getText()+""
+                         ,"phoneNumber",Integer.valueOf(String.valueOf(userPhone.getText())),"address",address
+                 ,"picture",downloadUrl)
+                         .addOnSuccessListener(new OnSuccessListener<Void>() {
+                             @Override
+                             public void onSuccess(Void aVoid) {
+                        Toast.makeText(getActivity(), "Information saved!", Toast.LENGTH_SHORT).show();
+                        ProfileFragment ProfileFragment = new ProfileFragment();
+                        getFragmentManager().beginTransaction().replace(R.id.frame_layout, ProfileFragment).
+                                commit();
+                             }
+                         }).addOnFailureListener(new OnFailureListener() {
+                     @Override
+                     public void onFailure(@NonNull Exception e) {
+                         Toast.makeText(getActivity(), "Something went wrong!", Toast.LENGTH_SHORT).show();
+                     }
+                 });
+             }
+         });
+     }
 }

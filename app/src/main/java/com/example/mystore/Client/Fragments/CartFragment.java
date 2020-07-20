@@ -100,19 +100,17 @@ public class CartFragment extends Fragment {
                 });
 
 //                loadingAnimation.startLoadingDialog();
-//                itemsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-//                        for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-//                            Item item_1 = documentSnapshot.toObject(Item.class);
-//                            itemsToCheckOut.add(item_1);
-//                        }
-//                    }
-//                });
+                itemsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                        for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                            Item item_1 = documentSnapshot.toObject(Item.class);
+                            itemsToCheckOut.add(item_1);
+                        }
+                    }
+                });
             }
         });
-
-
         setUpRecyclerView();
         return V;
     }
