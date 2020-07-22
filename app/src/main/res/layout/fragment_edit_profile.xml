@@ -14,20 +14,32 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image"
+            <RelativeLayout
+                android:id="@+id/profile_pic_container"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/profile_img"
-                app:civ_border_color="@color/nutralColor"
-                app:civ_border_width="2dp" />
+                android:layout_centerHorizontal="true">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/profile_img"
+                    app:civ_border_color="@color/nutralColor"
+                    app:civ_border_width="2dp" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_camera_change_40"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="15dp"
+                    android:layout_alignParentBottom="true"/>
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/User_Name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/profile_image"
+                android:layout_below="@id/profile_pic_container"
                 android:layout_centerHorizontal="true"
                 android:text="@string/full_name"
                 android:textColor="#000"
@@ -38,7 +50,7 @@
                 android:id="@+id/profile_information"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/profile_image"
+                android:layout_below="@id/profile_pic_container"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="20dp"
