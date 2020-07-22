@@ -3,18 +3,18 @@ package com.example.mystore.Classes;
 import java.util.ArrayList;
 
 public class Order {
-    private ArrayList<Item> itemsToOrder;
-    private int orderID;
+    private Item itemToOrder;
+    private User user;
 
     public Order(){}
-    public Order(ArrayList<Item> itemsToOrder,int orderID){
-        setItemsToOrder(itemsToOrder);
-        setOrderID(orderID);
+    public Order(Item itemToOrder,User user){
+        setItemToOrder(itemToOrder);
+        setUser(user);
     }
 
-    public ArrayList<Item> getItemsToOrder() { return itemsToOrder; }
-    public void setItemsToOrder(ArrayList<Item> itemsToOrder) { this.itemsToOrder = itemsToOrder; }
+    public Item getItemToOrder() { return itemToOrder; }
+    public void setItemToOrder(Item itemToOrder) { this.itemToOrder = itemToOrder; }
 
-    public int getOrderID() { return orderID; }
-    public void setOrderID(int orderID) { this.orderID = orderID; }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 }

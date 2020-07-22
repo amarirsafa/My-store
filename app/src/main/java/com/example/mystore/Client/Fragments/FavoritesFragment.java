@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mystore.Client.Adapters.RecyclerViewAdapter;
 import com.example.mystore.Classes.Item;
+import com.example.mystore.Client.Adapters.RecyclerViewAdapter_Favorites;
 import com.example.mystore.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,7 +29,7 @@ public class FavoritesFragment extends Fragment {
     private CollectionReference itemsRef;
     private FirebaseAuth userAuth;
     private RecyclerView recyclerView;
-    private RecyclerViewAdapter adapter;
+    private RecyclerViewAdapter_Favorites adapter;
 
     @Nullable
     @Override
@@ -51,10 +52,10 @@ public class FavoritesFragment extends Fragment {
         final FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
                 .setQuery(query,Item.class)
                 .build();
-        adapter = new RecyclerViewAdapter(options);
+        adapter = new RecyclerViewAdapter_Favorites(options);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new RecyclerViewAdapter_Favorites.OnItemClickListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 Bundle bundle = new Bundle();
@@ -65,6 +66,12 @@ public class FavoritesFragment extends Fragment {
                         .addToBackStack(null).
                         commit();
             }
+
+            @Override
+            public void onDeleteClick(DocumentSnapshot documentSnapshot, int position) {
+                itemsRef.document(String.valueOf(options.getSnapshots().get(position).getId())).delete();
+            }
+
         });
     }
 

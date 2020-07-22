@@ -18,47 +18,44 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
 
-public class RecyclerViewAdapter_Cart extends FirestoreRecyclerAdapter<Item, RecyclerViewAdapter_Cart.myViewHolder> {
+public class RecyclerViewAdapter_Favorites extends FirestoreRecyclerAdapter<Item,RecyclerViewAdapter_Favorites.myViewHolder> {
+    public RecyclerViewAdapter_Favorites.OnItemClickListener listener;
 
-    public OnItemClickListener listener;
-
-    public RecyclerViewAdapter_Cart(@NonNull FirestoreRecyclerOptions<Item> options) {
+    public RecyclerViewAdapter_Favorites(@NonNull FirestoreRecyclerOptions<Item> options) {
         super(options);
     }
 
     @NonNull
     @Override
-    public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item_cart,parent,false);
-        return new myViewHolder(view);
+    public RecyclerViewAdapter_Favorites.myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item_favorites,parent,false);
+        return new RecyclerViewAdapter_Favorites.myViewHolder(view);
     }
 
 
 
     @SuppressLint("SetTextI18n")
     @Override
-    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull Item model) {
-        holder.Item_Title.setText(model.getTitle());
-        holder.Item_amount.setText(model.getAmount()+"");
+    protected void onBindViewHolder(@NonNull RecyclerViewAdapter_Favorites.myViewHolder holder, int position, @NonNull Item model) {
+        holder.item_name.setText(model.getTitle());
+        holder.item_price.setText(model.getPrice().toString());
         Picasso.get().
                 load(Uri.parse(model.getPictures().get(0))).
                 fit().
                 centerCrop().
-                into(holder.Item_Image);
-        holder.Item_price.setText(model.getPrice()+"");
+                into(holder.item_image);
+
     }
 
     class myViewHolder extends RecyclerView.ViewHolder{
-        ImageView Item_Image;
-        TextView Item_Title,Item_amount,remove,save,Item_price;
+        TextView item_name,item_price;
+        ImageView item_image,delete;
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
-            Item_Image = itemView.findViewById(R.id.Item_image_cart);
-            Item_Title = itemView.findViewById(R.id.Item_title_cart);
-            Item_amount = itemView.findViewById(R.id.Item_amount_cart);
-            Item_price = itemView.findViewById(R.id.item_price);
-            remove = itemView.findViewById(R.id.remove);
-            save = itemView.findViewById(R.id.save);
+            item_name = itemView.findViewById(R.id.Item_Name);
+            item_price = itemView.findViewById(R.id.Item_Price);
+            item_image = itemView.findViewById(R.id.Item_image);
+            delete = itemView.findViewById(R.id.delete_from_favorites);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -68,7 +65,7 @@ public class RecyclerViewAdapter_Cart extends FirestoreRecyclerAdapter<Item, Rec
                     }
                 }
             });
-            remove.setOnClickListener(new View.OnClickListener() {
+            delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
@@ -79,25 +76,13 @@ public class RecyclerViewAdapter_Cart extends FirestoreRecyclerAdapter<Item, Rec
                     }
                 }
             });
-            save.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onSaveClick(getSnapshots().getSnapshot(position),position);
-                        }
-                    }
-                }
-            });
         }
     }
     public interface OnItemClickListener{
-        void onItemClick(DocumentSnapshot documentSnapshot,int position);
+        void onItemClick(DocumentSnapshot documentSnapshot, int position);
         void onDeleteClick(DocumentSnapshot documentSnapshot,int position);
-        void onSaveClick(DocumentSnapshot documentSnapshot,int position);
     }
-    public void setOnItemClickListener(OnItemClickListener listener){
+    public void setOnItemClickListener(RecyclerViewAdapter_Favorites.OnItemClickListener listener){
         this.listener=listener;
     }
 }

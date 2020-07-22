@@ -38,7 +38,7 @@
     <string name="MINUS">-</string>
     <string name="PLUS">+</string>
     <string name="loading">Loading...</string>
-    <string name="save">Save</string>
+    <string name="save">Save for later</string>
     <string name="remove">Remove</string>
     <string name="items_title_goes_in_here">Items title goes in here</string>
     <string name="quantity1">Quantity</string>

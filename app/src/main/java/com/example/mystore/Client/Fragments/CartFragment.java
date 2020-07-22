@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mystore.Admin.Activities.UploadItemsActivity;
+import com.example.mystore.Classes.Order;
 import com.example.mystore.Classes.User;
 import com.example.mystore.Client.Adapters.RecyclerViewAdapter_Cart;
 import com.example.mystore.Classes.Item;
@@ -22,9 +23,11 @@ import com.example.mystore.LoadingDialog;
 import com.example.mystore.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -37,22 +40,24 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class CartFragment extends Fragment {
-    private FirebaseFirestore mDataBaseStore ;
-    private CollectionReference itemsRef;
+    private FirebaseFirestore mDataBaseStore;
+    private CollectionReference itemsRef, adminRef;
     private FirebaseAuth userAuth;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter_Cart adapter;
     private ArrayList<Item> itemsToCheckOut;
     private LoadingDialog loadingAnimation;
-    private User currrentUser;
+    private User currentUser;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View V = inflater.inflate(R.layout.fragment_cart,container,false);
-        loadingAnimation  = new LoadingDialog(getActivity());
+        View V = inflater.inflate(R.layout.fragment_cart, container, false);
+        loadingAnimation = new LoadingDialog(getActivity());
         userAuth = FirebaseAuth.getInstance();
         mDataBaseStore = FirebaseFirestore.getInstance();
+        adminRef = mDataBaseStore.collection("users");
 
         itemsToCheckOut = new ArrayList<>();
         itemsRef = mDataBaseStore.collection("users")
@@ -70,8 +75,8 @@ public class CartFragment extends Fragment {
                         .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document : task.getResult()){
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
                                 document.getReference().delete();
                             }
                         }
@@ -82,30 +87,44 @@ public class CartFragment extends Fragment {
         V.findViewById(R.id.checkout_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDataBaseStore.collection("users").addSnapshotListener(new EventListener<QuerySnapshot>() {
+                mDataBaseStore.collection("users").document(Objects.requireNonNull(userAuth.getUid()))
+                        .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                        assert queryDocumentSnapshots != null;
-                        for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                            if(documentSnapshot.getId().equals(userAuth.getUid())){
-                                currrentUser = documentSnapshot.toObject(User.class);
-                                if(currrentUser.getAddress().getStreet()==null || currrentUser.getAddress().getCity() ==null
-                                || currrentUser.getAddress().getCountry() == null || currrentUser.getAddress().getPostalCode() == null
-                                || currrentUser.getAddress().getProvince() == null || currrentUser.getCIN() == null){
-                                    openDialog();
-                                }
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            currentUser = documentSnapshot.toObject(User.class);
+                            if (currentUser.getAddress().getStreet() == null || currentUser.getAddress().getCity() == null
+                                    || currentUser.getAddress().getCountry() == null || currentUser.getAddress().getPostalCode() == null
+                                    || currentUser.getAddress().getProvince() == null || currentUser.getCIN() == null) {
+                                openDialog();
+                            } else {
+                                loadingAnimation.startLoadingDialog();
+                                itemsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                                        for (final QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                            final Item item_1 = documentSnapshot.toObject(Item.class);
+                                            adminRef.document(item_1.getSellerId()).get()
+                                                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                        @Override
+                                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                            Order order = new Order();
+                                                            order.setItemToOrder(item_1);
+                                                            order.setUser(currentUser);
+                                                            adminRef.document(item_1.getSellerId()).collection("orders")
+                                                                    .add(order).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                                @Override
+                                                                public void onSuccess(DocumentReference documentReference) {
+                                                                    loadingAnimation.dismissDialog();
+                                                                    Toast.makeText(getActivity(), "Oder Complete", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                });
                             }
-                        }
-                    }
-                });
-
-//                loadingAnimation.startLoadingDialog();
-                itemsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                        for(QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots){
-                            Item item_1 = documentSnapshot.toObject(Item.class);
-                            itemsToCheckOut.add(item_1);
                         }
                     }
                 });
@@ -114,14 +133,16 @@ public class CartFragment extends Fragment {
         setUpRecyclerView();
         return V;
     }
+
     public void openDialog() {
         ExampleDialog exampleDialog = new ExampleDialog();
-        exampleDialog.show(getFragmentManager(),"Error");
+        exampleDialog.show(getFragmentManager(), "Error");
     }
+
     private void setUpRecyclerView() {
-        Query query = itemsRef.orderBy("id",Query.Direction.DESCENDING);
+        Query query = itemsRef.orderBy("id", Query.Direction.DESCENDING);
         final FirestoreRecyclerOptions<Item> options = new FirestoreRecyclerOptions.Builder<Item>()
-                .setQuery(query,Item.class)
+                .setQuery(query, Item.class)
                 .build();
         adapter = new RecyclerViewAdapter_Cart(options);
         recyclerView.setAdapter(adapter);
@@ -130,10 +151,10 @@ public class CartFragment extends Fragment {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("item",options.getSnapshots().get(position));
+                bundle.putParcelable("item", options.getSnapshots().get(position));
                 ItemFragment itemFragment = new ItemFragment();
                 itemFragment.setArguments(bundle);
-                getFragmentManager().beginTransaction().replace(R.id.frame_layout,itemFragment).
+                getFragmentManager().beginTransaction().replace(R.id.frame_layout, itemFragment).
                         commit();
             }
 
