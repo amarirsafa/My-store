@@ -48,6 +48,7 @@ public class CartFragment extends Fragment {
     private ArrayList<Item> itemsToCheckOut;
     private LoadingDialog loadingAnimation;
     private User currentUser;
+    private String orderId;
 
 
     @Nullable
@@ -107,16 +108,19 @@ public class CartFragment extends Fragment {
                                             adminRef.document(item_1.getSellerId()).get()
                                                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                                         @Override
-                                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                            Order order = new Order();
+                                                        public void onSuccess(final DocumentSnapshot documentSnapshot) {
+                                                            final Order order = new Order();
                                                             order.setItemToOrder(item_1);
                                                             order.setUser(currentUser);
                                                             adminRef.document(item_1.getSellerId()).collection("orders")
                                                                     .add(order).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                                 @Override
                                                                 public void onSuccess(DocumentReference documentReference) {
+                                                                    order.setOrderId(documentReference.getId());
+                                                                    documentReference.update("orderId",order.getOrderId());
                                                                     loadingAnimation.dismissDialog();
                                                                     Toast.makeText(getActivity(), "Oder Complete", Toast.LENGTH_SHORT).show();
+
                                                                 }
                                                             });
                                                         }

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import com.example.mystore.Admin.Fragments.AdminHomeFragment;
 import com.example.mystore.Admin.Fragments.AdminProfileFragment;
+import com.example.mystore.Admin.Fragments.OrdersFragment;
 import com.example.mystore.Client.Fragments.CartFragment;
 import com.example.mystore.Client.Fragments.FavoritesFragment;
 import com.example.mystore.Client.Fragments.HomeFragment;
@@ -23,8 +24,8 @@ public class AdminLanding extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_landing);
 
-        BottomNavigationView buttomNavBar = findViewById(R.id.admin_nav_view);
-        buttomNavBar.setOnNavigationItemSelectedListener(navListener);
+        BottomNavigationView bottomNavBar = findViewById(R.id.admin_nav_view);
+        bottomNavBar.setOnNavigationItemSelectedListener(navListener);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.admin_frame_layout,
                     new AdminHomeFragment()).commit();
@@ -39,9 +40,9 @@ public class AdminLanding extends AppCompatActivity {
                         case R.id.admin_nav_home:
                             selectedFragment = new AdminHomeFragment();
                             break;
-//                        case R.id.admin_nav_unchecked_orders:
-//                            selectedFragment = new FavoritesFragment();
-//                            break;
+                        case R.id.admin_nav_unchecked_orders:
+                            selectedFragment = new OrdersFragment();
+                            break;
 //                        case R.id.admin_nav_checked_orders:
 //                            selectedFragment = new CartFragment();
 //                            break;

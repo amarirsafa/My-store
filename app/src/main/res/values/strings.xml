@@ -84,5 +84,13 @@
     <string name="add_new_listing">ADD NEW LISTING</string>
     <string name="empty_cart">Empty Cart</string>
     <string name="checkout">CheckOut</string>
+    <string name="to">To :</string>
+    <string name="mmmm_dd_yyyy">mmmm dd yyyy</string>
+    <string name="date">Date :</string>
+    <string name="item_id_number">item id number</string>
+    <string name="item">Item :</string>
+    <string name="item_to_order_title">item to order title</string>
+    <string name="qty">Qty :</string>
+    <string name="processed">Processed</string>
 
 </resources>

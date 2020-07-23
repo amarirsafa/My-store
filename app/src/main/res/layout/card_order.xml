@@ -1,6 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_gray_full_borders">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/order_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/item_id_number"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:textColor="#000"
+            android:textSize="18sp" />
+
+        <RelativeLayout
+            android:id="@+id/order_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/order_id"
+            android:layout_marginVertical="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="30dp">
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:text="@string/date" />
+
+            <TextView
+                android:id="@+id/oder_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/date"
+                android:text="@string/mmmm_dd_yyyy" />
+
+            <TextView
+                android:id="@+id/item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/date"
+                android:layout_marginEnd="20dp"
+                android:text="@string/item"/>
+            <TextView
+                android:id="@+id/item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/item_to_order_title"
+                android:layout_below="@id/oder_date"
+                android:layout_toEndOf="@id/item"/>
+            <TextView
+                android:id="@+id/quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_title"
+                android:layout_marginEnd="27dp"
+                android:text="@string/qty"/>
+            <TextView
+                android:id="@+id/amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/quantity1"
+                android:layout_below="@id/item_title"
+                android:layout_toEndOf="@id/quantity"/>
+            <TextView
+                android:id="@+id/address_to_ship_to"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:layout_below="@id/quantity"
+                android:text="@string/to"/>
+            <TextView
+                android:id="@+id/oder_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/address"
+                android:layout_below="@id/quantity"
+                android:layout_toEndOf="@id/address_to_ship_to"/>
+        </RelativeLayout>
+        <Button
+            android:id="@+id/processed_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/order_info"
+            android:layout_alignParentEnd="true"
+            android:text="@string/processed"
+            android:background="@drawable/shape_full_color_button"
+            android:textColor="#fff"
+            android:paddingHorizontal="20dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="5dp"/>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
