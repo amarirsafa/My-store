@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import com.example.mystore.Admin.Fragments.AdminHomeFragment;
 import com.example.mystore.Admin.Fragments.AdminProfileFragment;
+import com.example.mystore.Admin.Fragments.CheckedOrdersFragment;
 import com.example.mystore.Admin.Fragments.OrdersFragment;
 import com.example.mystore.Client.Fragments.CartFragment;
 import com.example.mystore.Client.Fragments.FavoritesFragment;
@@ -43,9 +44,9 @@ public class AdminLanding extends AppCompatActivity {
                         case R.id.admin_nav_unchecked_orders:
                             selectedFragment = new OrdersFragment();
                             break;
-//                        case R.id.admin_nav_checked_orders:
-//                            selectedFragment = new CartFragment();
-//                            break;
+                        case R.id.admin_nav_checked_orders:
+                            selectedFragment = new CheckedOrdersFragment();
+                            break;
                         case R.id.admin_nav_profil:
                             selectedFragment = new AdminProfileFragment();
                             break;

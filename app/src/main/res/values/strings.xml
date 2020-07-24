@@ -92,5 +92,6 @@
     <string name="item_to_order_title">item to order title</string>
     <string name="qty">Qty :</string>
     <string name="processed">Processed</string>
+    <string name="delete">Delete</string>
 
 </resources>
